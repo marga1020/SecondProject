@@ -9,19 +9,8 @@
  * following link: http://raider.mountunion.edu/csc/CSC370/Spring2018/projects/project01/index.html
  *
  * This class handles GUI as well as calling all the other classes. MainFrame is good for leading
- *
- * Personal Work Log:
- * Date           Hours     Goals                   Progress                                                Comments
- * 1/20/2018      1         Base line, classes      GUI set up, basic process class, buttons                What is a thread??
- *                          and methods             are clickable, if not running a thread properly
- * 
- * 1/27/2018      3         The rest of             GUI reads in data, sorts into an ArrayList of           I didn't finish, actually. Goal missed. Also, I had a lot of issues 
- *                          the project             Processes, clock ticks and runs properly                because I never started my thread. Debugging is a valuable tool
- *
- * 1/28/2018      1.5       Actually finish         Lots of try/catch blocks to deal with errors in         The Simulator is doing a lot of work,
- *                                                  input and such. Data is passed around and used          but I feel like it could be doing more. 
- *                                                  to calculate what goes where as the time ticks.         Currently a lot handled by MainFrame
- *                                                                                                          Cleaned up the statusString method and I'm proud of how much nicer it is                                   
+ *                                                
+ *                                                                                                       
  */
 package firstproject;
 

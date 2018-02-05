@@ -72,6 +72,11 @@ public class MainFrame extends javax.swing.JFrame {
         readyLabel = new javax.swing.JLabel();
         runningLabel = new javax.swing.JLabel();
         waitingLabel = new javax.swing.JLabel();
+        endedListLabel = new javax.swing.JLabel();
+        processListLabel = new javax.swing.JLabel();
+        readyListLabel = new javax.swing.JLabel();
+        runningListLabel = new javax.swing.JLabel();
+        waitingListLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -131,10 +136,10 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(speedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, -1, -1));
 
         processesLabel.setText("Processes");
-        getContentPane().add(processesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, -1, -1));
+        getContentPane().add(processesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, -1, -1));
 
         endedLabel.setText("Ended");
-        getContentPane().add(endedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 400, -1, -1));
+        getContentPane().add(endedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 350, -1, -1));
 
         readyLabel.setText("Ready");
         getContentPane().add(readyLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 500, -1, -1));
@@ -144,6 +149,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         waitingLabel.setText("Waiting");
         getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 560, -1, -1));
+        getContentPane().add(endedListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 380, 80, 20));
+        getContentPane().add(processListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 80, 20));
+        getContentPane().add(readyListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 520, 80, 20));
+        getContentPane().add(runningListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 520, 80, 20));
+        getContentPane().add(waitingListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 580, 80, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -179,6 +189,11 @@ public class MainFrame extends javax.swing.JFrame {
             }
             outputArea.setText("\n Data Read Successfully");
             sim = new Simulator(clockLimit, processes);
+            try{
+                CS.setSim(sim);
+            }catch(Exception ex){
+                
+            }
         }
         catch(Exception ex){outputArea.setText("\n Enter Data in Left Text Area");}
     }//GEN-LAST:event_readDataButtonActionPerformed
@@ -189,6 +204,10 @@ public class MainFrame extends javax.swing.JFrame {
             thread = new Thread(CS);
             thread.start();
             clicked = !clicked;
+            try{
+                CS.setSim(sim);
+            }
+            catch(Exception ex){}
         }
         CS.switchRun();
     }//GEN-LAST:event_playPauseButtonActionPerformed
@@ -199,6 +218,10 @@ public class MainFrame extends javax.swing.JFrame {
             thread = new Thread(CS);
             thread.start();
             clicked = !clicked;
+            try{
+                CS.setSim(sim);
+            }
+            catch(Exception ex){}
         }
         CS.incrementTime();
         try{
@@ -347,19 +370,24 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JLabel clockLabel;
     private javax.swing.JLabel endedLabel;
+    private javax.swing.JLabel endedListLabel;
     private javax.swing.JTextArea inputArea;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton oneTickButton;
     private javax.swing.JTextArea outputArea;
     private javax.swing.JButton playPauseButton;
+    private javax.swing.JLabel processListLabel;
     private javax.swing.JLabel processesLabel;
     private javax.swing.JButton readDataButton;
     private javax.swing.JLabel readyLabel;
+    private javax.swing.JLabel readyListLabel;
     private javax.swing.JLabel runningLabel;
+    private javax.swing.JLabel runningListLabel;
     private javax.swing.JLabel speedLabel;
     private javax.swing.JSlider speedSlider;
     private javax.swing.JButton statusButton;
     private javax.swing.JLabel waitingLabel;
+    private javax.swing.JLabel waitingListLabel;
     // End of variables declaration//GEN-END:variables
 }

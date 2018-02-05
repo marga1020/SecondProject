@@ -60,6 +60,10 @@ public class ClockStarter implements Runnable{
         return currentTime;
     }
     
+    public void resetCurrentTime(){
+        currentTime = -1;
+    }
+    
   
     public static void main(String args[]) 
     {

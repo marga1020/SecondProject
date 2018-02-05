@@ -1,4 +1,7 @@
 /*
+ *
+ * Rob Ranallo
+ * Aaron Liezert
  * Gaston C. Marian
  * CSC 370, First Project
  * Due 29 January 2018

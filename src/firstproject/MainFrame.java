@@ -78,6 +78,11 @@ public class MainFrame extends javax.swing.JFrame {
         speedSlider = new javax.swing.JSlider();
         statusButton = new javax.swing.JButton();
         speedLabel = new javax.swing.JLabel();
+        processesLabel = new javax.swing.JLabel();
+        endedLabel = new javax.swing.JLabel();
+        readyLabel = new javax.swing.JLabel();
+        runningLabel = new javax.swing.JLabel();
+        waitingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -136,10 +141,29 @@ public class MainFrame extends javax.swing.JFrame {
         speedLabel.setText("Speed");
         getContentPane().add(speedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, -1, -1));
 
+        processesLabel.setText("Processes");
+        getContentPane().add(processesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, -1, -1));
+
+        endedLabel.setText("Ended");
+        getContentPane().add(endedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 400, -1, -1));
+
+        readyLabel.setText("Ready");
+        getContentPane().add(readyLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 500, -1, -1));
+
+        runningLabel.setText("Running");
+        getContentPane().add(runningLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, -1, -1));
+
+        waitingLabel.setText("Waiting");
+        getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 560, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void readDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readDataButtonActionPerformed
+        clicked = false;
+        try{
+            sim.clearSim();
+        }catch(Exception ex){}
         try{
             String inString = inputArea.getText();
             String[] inArray = inString.split("\n");
@@ -188,6 +212,11 @@ public class MainFrame extends javax.swing.JFrame {
             clicked = !clicked;
         }
         CS.incrementTime();
+        try{
+            sim.setClockTime(CS.getCurrentTime());
+        }catch(Exception ex){
+            
+        }
         
     }//GEN-LAST:event_oneTickButtonActionPerformed
 
@@ -328,15 +357,20 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JLabel clockLabel;
+    private javax.swing.JLabel endedLabel;
     private javax.swing.JTextArea inputArea;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton oneTickButton;
     private javax.swing.JTextArea outputArea;
     private javax.swing.JButton playPauseButton;
+    private javax.swing.JLabel processesLabel;
     private javax.swing.JButton readDataButton;
+    private javax.swing.JLabel readyLabel;
+    private javax.swing.JLabel runningLabel;
     private javax.swing.JLabel speedLabel;
     private javax.swing.JSlider speedSlider;
     private javax.swing.JButton statusButton;
+    private javax.swing.JLabel waitingLabel;
     // End of variables declaration//GEN-END:variables
 }

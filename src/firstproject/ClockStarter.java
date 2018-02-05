@@ -25,6 +25,7 @@ public class ClockStarter implements Runnable{
     private boolean running = true;
     private JLabel jLabel;
     private int sleepTime = 1000;
+    private Simulator sim;
     
     public ClockStarter(JLabel j ) {
         jLabel = j;
@@ -64,6 +65,9 @@ public class ClockStarter implements Runnable{
         currentTime = -1;
     }
     
+    public void setSim(Simulator s){
+        sim = s;
+    }
   
     public static void main(String args[]) 
     {

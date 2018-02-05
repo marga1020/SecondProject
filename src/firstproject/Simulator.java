@@ -44,6 +44,13 @@ public class Simulator {
         }
     }
     
+    public void clearSim(){
+        processList.clear();
+        newList.clear();
+        readyList.clear();
+        clockTime = -1;
+    }
+    
     public ArrayList<Process> getNewList(){
         return newList;
     }

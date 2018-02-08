@@ -16,6 +16,7 @@
 package firstproject;
 
 import java.util.ArrayList;
+import javax.swing.JLabel;
 
 /**
  *
@@ -23,15 +24,24 @@ import java.util.ArrayList;
  */
 public class Simulator {
     private int runTime, clockTime, oldTime;
-    private ArrayList<Process> processList, newList, readyList;
+    private ArrayList<Process> processList, newList, readyList, runningList, waitingList, endedList;
+    private JLabel processesLabel, readyLabel, runningLabel, waitingLabel, endedLabel;
     
     // Constructor
-    public Simulator(int rT, ArrayList<Process> pL){
+    public Simulator(int rT, ArrayList<Process> pL, JLabel pLabel, JLabel reL, JLabel ruL, JLabel wL, JLabel eL){
         runTime = rT;
         processList = pL;
         clockTime = -1;
         newList = new ArrayList<>();
         readyList = new ArrayList<>();
+        runningList = new ArrayList<>();
+        waitingList = new ArrayList<>();
+        endedList = new ArrayList<>();
+        processesLabel = pLabel;
+        readyLabel = reL;
+        runningLabel = ruL;
+        waitingLabel = wL;
+        endedLabel = eL;
     }
     
     // If the system clock time has changed, the work is done to recalculate
@@ -49,6 +59,11 @@ public class Simulator {
         newList.clear();
         readyList.clear();
         clockTime = -1;
+        processesLabel.setText("");
+        readyLabel.setText("");
+        runningLabel.setText("");
+        waitingLabel.setText("");
+        endedLabel.setText("");
     }
     
     public ArrayList<Process> getNewList(){

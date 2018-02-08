@@ -188,7 +188,7 @@ public class MainFrame extends javax.swing.JFrame {
                 return;
             }
             outputArea.setText("\n Data Read Successfully");
-            sim = new Simulator(clockLimit, processes);
+            sim = new Simulator(clockLimit, processes, processesLabel, readyLabel, runningLabel, waitingLabel, endedLabel);
             try{
                 CS.setSim(sim);
             }catch(Exception ex){

@@ -1,5 +1,7 @@
 /*
- * Gaston C. Marian 1/29/2018
+ * Rob Ranallo
+ * Aaron Liezert
+ * Gaston C. Marian
  * Simulates CPU allocation to various processes, full project specification can be found at the following site
  * http://raider.mountunion.edu/csc/CSC370/Spring2018/projects/project01/index.html
  *
@@ -23,13 +25,13 @@ import javax.swing.JLabel;
  * @author 1Owner
  */
 public class Simulator {
-    private int runTime, clockTime, oldTime;
+    private int runTime, currentRun, clockTime, oldTime;
     private ArrayList<Process> processList, newList, readyList, runningList, waitingList, endedList;
     private JLabel processesLabel, readyLabel, runningLabel, waitingLabel, endedLabel;
     
     // Constructor
     public Simulator(int rT, ArrayList<Process> pL, JLabel pLabel, JLabel reL, JLabel ruL, JLabel wL, JLabel eL){
-        runTime = rT;
+        runTime = currentRun = rT;
         processList = pL;
         clockTime = -1;
         newList = new ArrayList<>();
@@ -82,22 +84,37 @@ public class Simulator {
     // and then if the tick is one past the enterance number, it enters it into ready.
     // Future iterations will do more calculations
     private void increment() {
+        
+        // This loop sends processes from process to new when they are meant to enter
+        // then from new to Ready onen tick after they enter new
         for (Process x: processList){
-            if (x.getTime()==clockTime){            // and the time has come for it to be initialized
-                if (!newList.contains(x)){          // move it into the new process list
-                    x.setLocationNew();             // Location setting likely to be useful in full implementation of sim
-                    newList.add(x);
+            if(x.getName().equals("Process List")){
+                if (x.getTime()==clockTime){            // and the time has come for it to be initialized
+                    if (!newList.contains(x)){          // move it into the new process list
+                        x.setLocationNew();             // Location setting likely to be useful in full implementation of sim
+                        newList.add(x);
+                    }
                 }
             }
-            if (x.getTime()<clockTime){             // and at least a tick has passed
-                if (!readyList.contains(x)){
-                    x.setLocationReady(); 
-                    readyList.add(x);
-                }
-                if (newList.contains(x)){
-                    newList.remove(x);
+            if(x.getName().equals("New List")){
+                if (x.getTime()<clockTime){             // and at least a tick has passed
+                    if (!readyList.contains(x)){
+                        x.setLocationReady(); 
+                        readyList.add(x);
+                    }
+                    if (newList.contains(x)){
+                        newList.remove(x);
+                    }
                 }
             }
+        }
+        
+        // this will see if the process in run has been there for the timeQuantum
+        if (runningList.get(0) == null){
+            
+        }
+        else{
+            
         }
     }
 }

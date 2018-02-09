@@ -4,7 +4,7 @@
  * Aaron Liezert
  * Gaston C. Marian
  * CSC 370, First Project
- * Due 29 January 2018
+ * Due XX Feburary 2018
  * Making a program to simulate operating system processes as specified in the 
  * following link: http://raider.mountunion.edu/csc/CSC370/Spring2018/projects/project01/index.html
  *

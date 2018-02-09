@@ -29,6 +29,7 @@ public class MainFrame extends javax.swing.JFrame {
     private static ClockStarter CS;
     private boolean clicked = false;
     private boolean clocked = false;
+    private boolean running = false;
     private Thread thread;
     private int clockLimit;
     private Simulator sim;
@@ -73,7 +74,7 @@ public class MainFrame extends javax.swing.JFrame {
         runningLabel = new javax.swing.JLabel();
         waitingLabel = new javax.swing.JLabel();
         endedListLabel = new javax.swing.JLabel();
-        processListLabel = new javax.swing.JLabel();
+        processesListLabel = new javax.swing.JLabel();
         readyListLabel = new javax.swing.JLabel();
         runningListLabel = new javax.swing.JLabel();
         waitingListLabel = new javax.swing.JLabel();
@@ -81,13 +82,13 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        playPauseButton.setText("Run/Pause");
+        playPauseButton.setText("Run");
         playPauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 playPauseButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(playPauseButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, -1, -1));
+        getContentPane().add(playPauseButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 80, -1));
 
         clockLabel.setText("-1");
         getContentPane().add(clockLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 20, -1, -1));
@@ -106,7 +107,7 @@ public class MainFrame extends javax.swing.JFrame {
                 oneTickButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(oneTickButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(383, 50, 80, -1));
+        getContentPane().add(oneTickButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 80, -1));
 
         inputArea.setColumns(20);
         inputArea.setRows(5);
@@ -150,7 +151,7 @@ public class MainFrame extends javax.swing.JFrame {
         waitingLabel.setText("Waiting");
         getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 560, -1, -1));
         getContentPane().add(endedListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 380, 80, 20));
-        getContentPane().add(processListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 80, 20));
+        getContentPane().add(processesListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 80, 20));
         getContentPane().add(readyListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 520, 80, 20));
         getContentPane().add(runningListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 520, 80, 20));
         getContentPane().add(waitingListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 580, 80, 20));
@@ -166,6 +167,12 @@ public class MainFrame extends javax.swing.JFrame {
         try{
             String inString = inputArea.getText();
             String[] inArray = inString.split("\n");
+            
+            if (inputArea.getText().equals("")){                  // Validation that input is there to be read
+                outputArea.setText(" \nERROR:\nInput data is required.");
+                return;
+            }
+            
             if (!(inArray.length%3 == 1)){                  // Validation that input is right number of lines
                 outputArea.setText(" \nERROR:\nInput data is an invaid format."
                         +"\nProper format requires a first line time quantum,"
@@ -173,6 +180,7 @@ public class MainFrame extends javax.swing.JFrame {
                         +"\ncreation time, name, and trace tape for the process.");
                 return;
             }
+            
             try{                                            // Validation that input starts first line with time quantum
                 clockLimit = Integer.parseInt(inArray[0]);
             } catch (Exception ex){
@@ -180,6 +188,7 @@ public class MainFrame extends javax.swing.JFrame {
                         +"\nFirst line is a number, the time quantum");
                 return;
             }
+            
             try{                                         // Validation that input is made of processes that have start time
                 processProcesses(inArray);
             } catch (Exception ex){
@@ -188,7 +197,7 @@ public class MainFrame extends javax.swing.JFrame {
                 return;
             }
             outputArea.setText("\n Data Read Successfully");
-            sim = new Simulator(clockLimit, processes, processesLabel, readyLabel, runningLabel, waitingLabel, endedLabel);
+            sim = new Simulator(clockLimit, processes, processesListLabel, readyListLabel, runningListLabel, waitingListLabel, endedListLabel);
             try{
                 CS.setSim(sim);
             }catch(Exception ex){
@@ -208,6 +217,13 @@ public class MainFrame extends javax.swing.JFrame {
                 CS.setSim(sim);
             }
             catch(Exception ex){}
+        }
+        if(running){
+            running = false;
+            playPauseButton.setText("Run");
+        }else{
+            running = true;
+            playPauseButton.setText("Pause");
         }
         CS.switchRun();
     }//GEN-LAST:event_playPauseButtonActionPerformed
@@ -377,8 +393,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton oneTickButton;
     private javax.swing.JTextArea outputArea;
     private javax.swing.JButton playPauseButton;
-    private javax.swing.JLabel processListLabel;
     private javax.swing.JLabel processesLabel;
+    private javax.swing.JLabel processesListLabel;
     private javax.swing.JButton readDataButton;
     private javax.swing.JLabel readyLabel;
     private javax.swing.JLabel readyListLabel;

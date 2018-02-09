@@ -44,6 +44,11 @@ public class Simulator {
         runningLabel = ruL;
         waitingLabel = wL;
         endedLabel = eL;
+        String processListText = "";
+        for(Process x: readyList){
+            processListText = processListText + x.toString() + "\n";
+        }
+        processesLabel.setText(processListText);
     }
     
     // If the system clock time has changed, the work is done to recalculate
@@ -53,6 +58,7 @@ public class Simulator {
         clockTime = t;
         if(clockTime > oldTime){
             increment();
+            setLabels();
         }
     }
     
@@ -110,11 +116,55 @@ public class Simulator {
         }
         
         // this will see if the process in run has been there for the timeQuantum
-        if (runningList.get(0) == null){
+        if (runningList.isEmpty()){
             
         }
         else{
             
+        }
+    }
+
+    private void setLabels() {                  // Each try/catch block tries to set the labels. 
+        String textBeingSet = "";               // Empty arrays throw exceptions which are cought and used to make empty labels
+        
+        try{
+        for(Process x: readyList){
+            textBeingSet = textBeingSet + x.toString() + "\n";
+        }
+        readyLabel.setText(textBeingSet);
+        textBeingSet = "";
+        } catch (Exception ex){
+            readyLabel.setText("");
+        }
+        
+        try{
+        for(Process x: runningList){
+            textBeingSet = textBeingSet + x.toString() + "\n";
+        }
+        runningLabel.setText(textBeingSet);
+        textBeingSet = "";
+        } catch (Exception ex){
+            runningLabel.setText("");
+        }
+        
+        try{
+        for(Process x: waitingList){
+            textBeingSet = textBeingSet + x.toString() + "\n";
+        }
+        waitingLabel.setText(textBeingSet);
+        textBeingSet = "";
+        } catch (Exception ex){
+            waitingLabel.setText("");
+        }
+        
+        try{
+        for(Process x: endedList){
+            textBeingSet = textBeingSet + x.toString() + "\n";
+        }
+        endedLabel.setText(textBeingSet);
+        textBeingSet = "";
+        } catch (Exception ex){
+            endedLabel.setText(""); 
         }
     }
 }

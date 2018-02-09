@@ -54,7 +54,9 @@ public class ClockStarter implements Runnable{
     
     public void incrementTime(){
         currentTime++;
+        try{
         sim.setClockTime(currentTime);
+        }catch(Exception ex){}
         jLabel.setText(""+ getCurrentTime());
     }
     

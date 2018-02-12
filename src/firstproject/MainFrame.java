@@ -73,10 +73,16 @@ public class MainFrame extends javax.swing.JFrame {
         readyLabel = new javax.swing.JLabel();
         runningLabel = new javax.swing.JLabel();
         waitingLabel = new javax.swing.JLabel();
-        endedListLabel = new javax.swing.JLabel();
+        testButton = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
         processesListLabel = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
         readyListLabel = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        endedListLabel = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
         runningListLabel = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
         waitingListLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -150,11 +156,34 @@ public class MainFrame extends javax.swing.JFrame {
 
         waitingLabel.setText("Waiting");
         getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 560, -1, -1));
-        getContentPane().add(endedListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 380, 80, 20));
-        getContentPane().add(processesListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 80, 20));
-        getContentPane().add(readyListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 520, 80, 20));
-        getContentPane().add(runningListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 520, 80, 20));
-        getContentPane().add(waitingListLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 580, 80, 20));
+
+        testButton.setText("Test");
+        testButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(testButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+
+        jScrollPane3.setViewportView(processesListLabel);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, 120, 100));
+
+        jScrollPane4.setViewportView(readyListLabel);
+
+        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 520, 130, 130));
+
+        jScrollPane5.setViewportView(endedListLabel);
+
+        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 370, 120, 120));
+
+        jScrollPane6.setViewportView(runningListLabel);
+
+        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 520, 130, 130));
+
+        jScrollPane7.setViewportView(waitingListLabel);
+
+        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 590, 130, 90));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -267,6 +296,11 @@ public class MainFrame extends javax.swing.JFrame {
             outputArea.setText("\n You need to enter valid data\nand click to read it in");
         }
     }//GEN-LAST:event_statusButtonActionPerformed
+
+    private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
+        inputArea.setText("4\n2\nA\nC 1 I 1 C 1"
+                + "\n5\nB\nC 1 I 1 C 1");
+    }//GEN-LAST:event_testButtonActionPerformed
 
     // Method to create the output for the current time and return a string to be 
     // appended when the status button is clicked
@@ -390,6 +424,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea inputArea;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JButton oneTickButton;
     private javax.swing.JTextArea outputArea;
     private javax.swing.JButton playPauseButton;
@@ -403,6 +442,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel speedLabel;
     private javax.swing.JSlider speedSlider;
     private javax.swing.JButton statusButton;
+    private javax.swing.JButton testButton;
     private javax.swing.JLabel waitingLabel;
     private javax.swing.JLabel waitingListLabel;
     // End of variables declaration//GEN-END:variables

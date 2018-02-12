@@ -14,6 +14,7 @@ package firstproject;
 public class Process {
     private int time;
     private String name, state;
+    private Tape tape;
     private String location;
     
     public Process(){
@@ -25,12 +26,21 @@ public class Process {
     public Process(int t, String n, String s){
         time = t;
         name = n;
-        state = s;
+        state = s;          
+        // Add line to affect the Tape object with String
         location = "Process List";
     }
     
     public void setLocationNew(){
         location = "New List";
+    }
+    
+    public void setLocationWaiting(){
+        location = "Waiting List";
+    }
+    
+    public void setLocationRunning(){
+        location = "Running List";
     }
     
     public void setLocationReady(){
@@ -59,6 +69,16 @@ public class Process {
     }
     public String getState(){
         return state;
+    }
+    
+    public void incrementTape(){
+        // tape.increment();
+    }
+    
+    public Boolean currentWaitEnded(){
+        // code to call tape and how to find the current length
+        // return true when true, but for now it waits forever.
+        return false;
     }
     
     public String toString(){

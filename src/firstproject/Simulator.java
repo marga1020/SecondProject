@@ -44,11 +44,11 @@ public class Simulator {
         runningLabel = ruL;
         waitingLabel = wL;
         endedLabel = eL;
-        String processListText = "";
-        for(Process x: readyList){
-            processListText = processListText + x.toString() + "\n";
+        LabelBreakFormat processListText = new LabelBreakFormat();                    // JLabel supports html, but not newline. Thanks freitass on SO: https://stackoverflow.com/questions/1090098/newline-in-jlabel
+        for(Process x: processList){
+            processListText.addToText(x.toString());
         }
-        processesLabel.setText(processListText);
+        processesLabel.setText(processListText.toString());
     }
     
     // If the system clock time has changed, the work is done to recalculate
@@ -91,18 +91,40 @@ public class Simulator {
     // Future iterations will do more calculations
     private void increment() {
         
+        // this will see if the process in run has been there for the timeQuantum
+        if (runningList.isEmpty()){
+            try{
+                runningList.add(readyList.get(0));
+                readyList.get(0).setLocationRunning();
+                readyList.remove(readyList.get(0));
+                currentRun = runTime;
+            }catch(Exception ex){
+                
+            }
+        }
+        // else block shifts the 
+        else{
+            // increment the process Tape here
+            currentRun --;
+            if (currentRun == -1){
+                waitingList.add(runningList.get(0));
+                runningList.get(0).setLocationWaiting();
+                runningList.remove(runningList.get(0));
+            }
+        }
+        
         // This loop sends processes from process to new when they are meant to enter
-        // then from new to Ready onen tick after they enter new
+        // then from new to Ready one tick after they enter new
         for (Process x: processList){
-            if(x.getName().equals("Process List")){
+            if(x.getLocation().equals("Process List")){
                 if (x.getTime()==clockTime){            // and the time has come for it to be initialized
                     if (!newList.contains(x)){          // move it into the new process list
-                        x.setLocationNew();             // Location setting likely to be useful in full implementation of sim
+                        x.setLocationNew();             
                         newList.add(x);
                     }
                 }
             }
-            if(x.getName().equals("New List")){
+            if(x.getLocation().equals("New List")){
                 if (x.getTime()<clockTime){             // and at least a tick has passed
                     if (!readyList.contains(x)){
                         x.setLocationReady(); 
@@ -115,56 +137,78 @@ public class Simulator {
             }
         }
         
-        // this will see if the process in run has been there for the timeQuantum
-        if (runningList.isEmpty()){
-            
-        }
-        else{
-            
+        // loops through waiting until they can move on
+        for (Process x: waitingList){
+            // x.incrementTape();
+            if (x.currentWaitEnded()){
+                readyList.add(x);
+                x.setLocationReady();
+                waitingList.remove(x);
+            }
         }
     }
 
     private void setLabels() {                  // Each try/catch block tries to set the labels. 
-        String textBeingSet = "";               // Empty arrays throw exceptions which are cought and used to make empty labels
+        LabelBreakFormat textBeingSet = new LabelBreakFormat();               // Empty arrays throw exceptions which are cought and used to make empty labels
         
         try{
         for(Process x: readyList){
-            textBeingSet = textBeingSet + x.toString() + "\n";
+            textBeingSet.addToText(x.toString());
         }
-        readyLabel.setText(textBeingSet);
-        textBeingSet = "";
+        readyLabel.setText(textBeingSet.toString());
+        textBeingSet.resetText();
         } catch (Exception ex){
             readyLabel.setText("");
         }
         
         try{
         for(Process x: runningList){
-            textBeingSet = textBeingSet + x.toString() + "\n";
+            textBeingSet.addToText(x.toString());
         }
-        runningLabel.setText(textBeingSet);
-        textBeingSet = "";
+        runningLabel.setText(textBeingSet.toString());
+        textBeingSet.resetText();
         } catch (Exception ex){
             runningLabel.setText("");
         }
         
         try{
         for(Process x: waitingList){
-            textBeingSet = textBeingSet + x.toString() + "\n";
+            textBeingSet.addToText(x.toString());
         }
-        waitingLabel.setText(textBeingSet);
-        textBeingSet = "";
+        waitingLabel.setText(textBeingSet.toString());
+        textBeingSet.resetText();
         } catch (Exception ex){
             waitingLabel.setText("");
         }
         
         try{
         for(Process x: endedList){
-            textBeingSet = textBeingSet + x.toString() + "\n";
+            textBeingSet.addToText(x.toString());
         }
-        endedLabel.setText(textBeingSet);
-        textBeingSet = "";
+        endedLabel.setText(textBeingSet.toString());
+        textBeingSet.resetText();
         } catch (Exception ex){
             endedLabel.setText(""); 
+        }
+    }
+    
+    class LabelBreakFormat{
+        private String labelText = "<html>";
+        public LabelBreakFormat(){
+        }
+        public void resetText(){
+            labelText = "<html>";
+        }
+        public void addToText(String s){
+            s.replaceAll("<","&lt;").replaceAll(">", "&gt;");       // future proofing just in case
+            labelText = labelText + s + "<br/>";
+        }
+        private void finalizeText(){
+            labelText = labelText + "</html>";
+        }
+        public String toString(){
+            finalizeText();
+            return labelText;
         }
     }
 }

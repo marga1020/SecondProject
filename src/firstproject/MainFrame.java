@@ -189,7 +189,10 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void readDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readDataButtonActionPerformed
-        clicked = false;
+        if (running){
+            playPauseButtonActionPerformed(evt);
+            CS.resetCurrentTime();
+        }
         try{
             sim.clearSim();
         }catch(Exception ex){}
@@ -237,16 +240,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_readDataButtonActionPerformed
 
     private void playPauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playPauseButtonActionPerformed
-        if (!clicked){
-            CS = new ClockStarter(clockLabel);
-            thread = new Thread(CS);
-            thread.start();
-            clicked = !clicked;
-            try{
-                CS.setSim(sim);
-            }
-            catch(Exception ex){}
-        }
+        startThread();
         if(running){
             running = false;
             playPauseButton.setText("Run");
@@ -258,16 +252,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_playPauseButtonActionPerformed
 
     private void oneTickButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneTickButtonActionPerformed
-        if (!clicked){
-            CS = new ClockStarter(clockLabel);
-            thread = new Thread(CS);
-            thread.start();
-            clicked = !clicked;
-            try{
-                CS.setSim(sim);
-            }
-            catch(Exception ex){}
-        }
+        startThread();
         CS.incrementTime();
         try{
             sim.setClockTime(CS.getCurrentTime());
@@ -299,10 +284,27 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
         inputArea.setText("4\n2\nA\nC 1 I 1 C 1"
-                + "\n5\nB\nC 1 I 1 C 1");
+                + "\n5\nB\nC 1 I 1 C 1"
+                + "\n1\nC\nC 1 I 1 C 1"
+                + "\n3\nD\nC 1 I 1 C 1"
+                + "\n5\nE\nC 1 I 1 C 1");
     }//GEN-LAST:event_testButtonActionPerformed
 
-    // Method to create the output for the current time and return a string to be 
+private void startThread(){
+    if (!clicked){
+            CS = new ClockStarter(clockLabel);
+            thread = new Thread(CS);
+            thread.start();
+            clicked = !clicked;
+            try{
+                CS.setSim(sim);
+            }
+            catch(Exception ex){}
+        }
+}    
+
+
+// Method to create the output for the current time and return a string to be 
     // appended when the status button is clicked
     private String statusString(){       
         String retVal = "";
@@ -408,12 +410,9 @@ public class MainFrame extends javax.swing.JFrame {
     private class MyChangeListener implements ChangeListener{
             @Override
             public void stateChanged(ChangeEvent ce) {
+                try{
                 CS.setSleepTime(speedSlider.getValue());    // Current method can require up to 5 seconds of wait time after moving slider
-//                try {                                     // This can be remedied with a thread.interrupt(), but then that adds 1 to the
-//                    thread.sleep(200);                    // tick clock for every unit the slider is slid, calling changelistener constantly
-//                } catch (InterruptedException ex) { }     // trying to use another thread sleeping to ignore input didn't work
-//                thread.interrupt();
-                
+                }catch(Exception ex){}
             }
     }
 

@@ -66,6 +66,7 @@ public class ClockStarter implements Runnable{
     
     public void resetCurrentTime(){
         currentTime = -1;
+        jLabel.setText(""+ getCurrentTime());
     }
     
     public void setSim(Simulator s){

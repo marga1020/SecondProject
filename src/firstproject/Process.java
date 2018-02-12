@@ -7,6 +7,8 @@
  */
 package firstproject;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author 1Owner
@@ -16,6 +18,7 @@ public class Process {
     private String name, state;
     private Tape tape;
     private String location;
+    private LinkedList tapeContents;
     
     public Process(){
         time = 0;

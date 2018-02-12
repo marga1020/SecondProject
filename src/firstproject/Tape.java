@@ -26,4 +26,8 @@ public class Tape {
         return valid;
     }
     
+    public int getTimeLeft() {
+        return time;
+    }
+    
 }

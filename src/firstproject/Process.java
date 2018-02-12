@@ -23,19 +23,24 @@ public class Process {
     public Process(){
         time = 0;
         name = "";
-        state = "";
+        tapeContents = null;
     }
     
-    public Process(int t, String n, String s){
+    public Process(int t, String n, LinkedList l){
         time = t;
         name = n;
-        state = s;          
+        tapeContents = l;          
         // Add line to affect the Tape object with String
         location = "Process List";
+        tape = this.getTapeSection();
     }
     
     public void setLocationNew(){
         location = "New List";
+    }
+    
+    public Tape getTapeSection() {
+        return (Tape) tapeContents.getFirst();
     }
     
     public void setLocationWaiting(){
@@ -76,6 +81,10 @@ public class Process {
     
     public void incrementTape(){
         // tape.increment();
+        tape = this.getTapeSection();
+        if(tape.getTimeLeft() != 0) {
+            tape.increment();
+        }
     }
     
     public Boolean currentWaitEnded(){

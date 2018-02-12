@@ -408,10 +408,28 @@ public class MainFrame extends javax.swing.JFrame {
                         if(theTape.charAt(c) == 'C' || theTape.charAt(c) == 'I') {
                             tapeIndex[b] = c;
                             theTape = theTape.substring(c, theTape.length());
+                            return;
                         }
                     }
                 }
+                theTape = inArray[i + 2];
                 LinkedList<Tape> tape = new LinkedList();
+                for(int d = 0; d < tapeCount; d++) {
+                    String stringToAdd = theTape.substring(theTape.charAt(tapeIndex[d]), theTape.charAt(tapeIndex[d+1]));
+                    int intToAdd;
+                    if(stringToAdd.length() == 5) {
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
+                        intToAdd = Integer.parseInt(stringToAdd.substring(2));
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
+                        tape.add(new Tape(stringToAdd, intToAdd));
+                    }
+                    else if(stringToAdd.length() == 6) {
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
+                        intToAdd = Integer.parseInt(stringToAdd.substring(2, 3));
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 4);
+                        tape.add(new Tape(stringToAdd, intToAdd));
+                    }
+                }
                 
                 Process temp = new Process(Integer.parseInt(inArray[i]), inArray[i+1], inArray[i+2]);
                 processes.add(temp);

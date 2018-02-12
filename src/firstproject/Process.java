@@ -18,7 +18,7 @@ public class Process {
     private String name, state;
     private Tape tape;
     private String location;
-    private LinkedList tapeContents;
+    private LinkedList tapeContents, deadTape;
     
     public Process(){
         time = 0;
@@ -29,7 +29,8 @@ public class Process {
     public Process(int t, String n, LinkedList l){
         time = t;
         name = n;
-        tapeContents = l;          
+        tapeContents = l;
+        deadTape = new LinkedList();
         // Add line to affect the Tape object with String
         location = "Process List";
         tape = this.getTapeSection();
@@ -85,7 +86,16 @@ public class Process {
         if(tape.getTimeLeft() != 0) {
             tape.increment();
         }
+        else {
+            this.switchTapeSection();
+        }
     }
+    
+    public void switchTapeSection() {
+        deadTape.add(tapeContents.removeFirst());
+        tape = this.getTapeSection();
+    }
+    
     
     public Boolean currentWaitEnded(){
         // code to call tape and how to find the current length

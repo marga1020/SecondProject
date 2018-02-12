@@ -407,8 +407,8 @@ public class MainFrame extends javax.swing.JFrame {
                     for(int c = 0; c < theTape.length(); c++) {
                         if(theTape.charAt(c) == 'C' || theTape.charAt(c) == 'I') {
                             tapeIndex[b] = c;
-                            theTape = theTape.substring(c, theTape.length());
-                            return;
+                            theTape = theTape.substring(c, theTape.length() - 1);
+                            break;
                         }
                     }
                 }
@@ -431,7 +431,7 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                 }
                 
-                Process temp = new Process(Integer.parseInt(inArray[i]), inArray[i+1], inArray[i+2]);
+                Process temp = new Process(Integer.parseInt(inArray[i]), inArray[i+1], tape);
                 processes.add(temp);
             }catch (Exception ex){
                 er = "Check here: \nLine " + i + " - " +inArray[i]

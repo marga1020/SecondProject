@@ -15,6 +15,7 @@
 package firstproject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeEvent;
@@ -396,6 +397,42 @@ private void startThread(){
     private void processProcesses(String[] inArray) {
         for (int i = 1; i < inArray.length; i += 3){
             try{
+                String theTape = inArray[i + 2];
+                int tapeCount = 0;
+                for(int a = 0; a < theTape.length(); a++) {
+                    if(theTape.charAt(a) == 'C' || theTape.charAt(a) == 'I') {
+                        tapeCount++;
+                    }
+                }
+                int[] tapeIndex = new int[tapeCount];
+                for(int b = 0; b < tapeCount; b++) {
+                    for(int c = 0; c < theTape.length(); c++) {
+                        if(theTape.charAt(c) == 'C' || theTape.charAt(c) == 'I') {
+                            tapeIndex[b] = c;
+                            theTape = theTape.substring(c, theTape.length());
+                            return;
+                        }
+                    }
+                }
+                theTape = inArray[i + 2];
+                LinkedList<Tape> tape = new LinkedList();
+                for(int d = 0; d < tapeCount; d++) {
+                    String stringToAdd = theTape.substring(theTape.charAt(tapeIndex[d]), theTape.charAt(tapeIndex[d+1]));
+                    int intToAdd;
+                    if(stringToAdd.length() == 5) {
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
+                        intToAdd = Integer.parseInt(stringToAdd.substring(2));
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
+                        tape.add(new Tape(stringToAdd, intToAdd));
+                    }
+                    else if(stringToAdd.length() == 6) {
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
+                        intToAdd = Integer.parseInt(stringToAdd.substring(2, 3));
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 4);
+                        tape.add(new Tape(stringToAdd, intToAdd));
+                    }
+                }
+                
                 Process temp = new Process(Integer.parseInt(inArray[i]), inArray[i+1], inArray[i+2]);
                 processes.add(temp);
             }catch (Exception ex){

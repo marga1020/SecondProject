@@ -405,30 +405,39 @@ private void startThread(){
                     }
                 }
                 int[] tapeIndex = new int[tapeCount];
+                int c = 0;
                 for(int b = 0; b < tapeCount; b++) {
-                    for(int c = 0; c < theTape.length(); c++) {
+                    while (c < theTape.length()) {
                         if(theTape.charAt(c) == 'C' || theTape.charAt(c) == 'I') {
                             tapeIndex[b] = c;
-                            theTape = theTape.substring(c, theTape.length() - 1);
+                            c++;
                             break;
                         }
+                        c++;
                     }
                 }
-                theTape = inArray[i + 2];
                 LinkedList<Tape> tape = new LinkedList();
                 for(int d = 0; d < tapeCount; d++) {
-                    String stringToAdd = theTape.substring(theTape.charAt(tapeIndex[d]), theTape.charAt(tapeIndex[d+1]));
+                    int begin = tapeIndex[d];
+                    int end;
+                    if(d == (tapeCount- 1)) {
+                        end = theTape.length();
+                    }
+                    else {
+                        end = tapeIndex[d + 1];
+                    }
+                    String stringToAdd = theTape.substring(begin, end);
                     int intToAdd;
-                    if(stringToAdd.length() == 5) {
-                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
+                    if(stringToAdd.length() == 4) {
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 1);
                         intToAdd = Integer.parseInt(stringToAdd.substring(2));
-                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 2);
                         tape.add(new Tape(stringToAdd, intToAdd));
                     }
-                    else if(stringToAdd.length() == 6) {
-                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 3);
-                        intToAdd = Integer.parseInt(stringToAdd.substring(2, 3));
-                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 4);
+                    else if(stringToAdd.length() == 5) {
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 1);
+                        intToAdd = Integer.parseInt(stringToAdd.substring(2, 4));
+                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 2);
                         tape.add(new Tape(stringToAdd, intToAdd));
                     }
                 }

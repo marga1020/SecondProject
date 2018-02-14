@@ -18,6 +18,14 @@ public class Tape {
         }
     }
     
+    public String getType(){
+        return type;
+    }
+    
+    public String toString(){
+        return getType() + " " + getTimeLeft();
+    }
+    
     public void increment() {
         time --;
     }

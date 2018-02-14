@@ -105,8 +105,16 @@ public class Process {
     
     public String toString(){
         String retVal = "";
-        retVal = time+ " :: " + name + " :: " + state;
+        retVal = time+ " :: " + name + " :: " + tapeContentsToString();
         return retVal;
+    }
+
+    private String tapeContentsToString() {
+        String theTapeContentsString = "";
+        for (int i = 0; i < tapeContents.size(); i++){
+            theTapeContentsString = theTapeContentsString + tapeContents.get(i).toString() + " ";
+        }
+        return theTapeContentsString;
     }
     
 }

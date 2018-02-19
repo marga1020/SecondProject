@@ -56,6 +56,10 @@ public class Process {
         location = "Ready List";
     }
     
+    public void setLocationEnded(){
+        location = "Ended List";
+    }
+    
     public String getLocation(){
         return location;
     }
@@ -81,13 +85,21 @@ public class Process {
     }
     
     public void incrementTape(){
-        // tape.increment();
         tape = this.getTapeSection();
         if(tape.getTimeLeft() != 0) {
-            tape.increment();
+            tape.decrement();
         }
         else {
             this.switchTapeSection();
+        }
+    }
+    
+    public boolean ioWaitNext(){
+        try {
+            Tape temp = (Tape) tapeContents.peek();
+            return temp.getType().equals("I");
+        }catch(Exception ex){
+            return false;
         }
     }
     
@@ -98,9 +110,7 @@ public class Process {
     
     
     public Boolean currentWaitEnded(){
-        // code to call tape and how to find the current length
-        // return true when true, but for now it waits forever.
-        return false;
+        return tape.getTimeLeft() == 0;
     }
     
     public String toString(){

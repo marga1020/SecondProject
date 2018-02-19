@@ -79,19 +79,26 @@ public class Simulator {
     }
     
     public ArrayList<Process> getReadyList(){
-        return readyList;                                   // bug fixed here. Copy/pasted line return newList; without changing to ready
-    }                                                       // Always double check copy/pasted text
+        return readyList;                                   
+    }                                                       
     
     public ArrayList<Process> getProcessList(){
         return processList;
     }
-
-    // Currently determines if a process should be out yet, if so it enters it into new
-    // and then if the tick is one past the enterance number, it enters it into ready.
-    // Future iterations will do more calculations
-    private void increment() {
-        
-        // this will see if the process in run has been there for the timeQuantum
+    
+    public ArrayList<Process> getWaitingList(){
+        return waitingList;
+    }
+    
+    public ArrayList<Process> getEndedList(){
+        return endedList;
+    }
+    
+    public ArrayList<Process> getRunningList(){
+        return runningList;
+    }
+    
+    private void switchIntoRunning(){
         if (runningList.isEmpty()){
             try{
                 runningList.add(readyList.get(0));
@@ -104,14 +111,43 @@ public class Simulator {
         }
         // else block shifts the 
         else{
-            // increment the process Tape here
+            if (runningList.get(0).getTapeSection().getTimeLeft() == 0){
+                if(!runningList.get(0).ioWaitNext()){
+                    endedList.add(runningList.get(0));
+                    runningList.get(0).setLocationEnded();
+                    runningList.remove(runningList.get(0));
+                    switchIntoRunning();
+                    return;  
+                }
+                else{
+                    waitingList.add(runningList.get(0));
+                    runningList.get(0).setLocationWaiting();
+                    runningList.remove(runningList.get(0));
+                    switchIntoRunning();
+                    return;
+                }
+            }
             currentRun --;
+            
             if (currentRun == -1){
-                waitingList.add(runningList.get(0));
-                runningList.get(0).setLocationWaiting();
+                readyList.add(runningList.get(0));
+                runningList.get(0).setLocationReady();
                 runningList.remove(runningList.get(0));
+                currentRun = 5;
+            }
+            else if (currentRun != 5){
+                readyList.get(0).incrementTape();
             }
         }
+    }
+
+    // Currently determines if a process should be out yet, if so it enters it into new
+    // and then if the tick is one past the enterance number, it enters it into ready.
+    // Future iterations will do more calculations
+    private void increment() {
+        
+        // this will see if the process in run has been there for the timeQuantum
+        switchIntoRunning();
         
         // This loop sends processes from process to new when they are meant to enter
         // then from new to Ready one tick after they enter new
@@ -145,6 +181,7 @@ public class Simulator {
                 x.setLocationReady();
                 waitingList.remove(x);
             }
+            x.incrementTape();
         }
     }
 

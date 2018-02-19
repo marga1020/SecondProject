@@ -26,7 +26,7 @@ public class Tape {
         return getType() + " " + getTimeLeft();
     }
     
-    public void increment() {
+    public void decrement() {
         time --;
     }
     

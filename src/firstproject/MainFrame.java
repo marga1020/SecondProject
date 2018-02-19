@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
  * @author Gaston Marain
  */
 public class MainFrame extends javax.swing.JFrame {
-    private ArrayList<Process> processes, newList, readyList;
+    private ArrayList<Process> processes, newList, readyList, runningList, waitingList, endedList;
     private static ClockStarter CS;
     private boolean clicked = false;
     private boolean clocked = false;
@@ -190,13 +190,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void readDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readDataButtonActionPerformed
-        if (running){
-            playPauseButtonActionPerformed(evt);
-            CS.resetCurrentTime();
-        }
-        try{
-            sim.clearSim();
-        }catch(Exception ex){}
+        resetTimeAndSim(evt);
         try{
             String inString = inputArea.getText();
             String[] inArray = inString.split("\n");
@@ -260,7 +254,6 @@ public class MainFrame extends javax.swing.JFrame {
         }catch(Exception ex){
             
         }
-        
     }//GEN-LAST:event_oneTickButtonActionPerformed
 
     private void statusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusButtonActionPerformed
@@ -284,11 +277,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_statusButtonActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        inputArea.setText("4\n2\nA\nC 1 I 1 C 1"
-                + "\n5\nB\nC 1 I 1 C 1"
-                + "\n1\nC\nC 1 I 1 C 1"
-                + "\n3\nD\nC 1 I 1 C 1"
-                + "\n5\nE\nC 1 I 1 C 1");
+        inputArea.setText("4\n2\nA\nC 1 I 2 C 3"
+                + "\n5\nB\nC 1 I 2 C 3"
+                + "\n1\nC\nC 1 I 2 C 3"
+                + "\n3\nD\nC 1 I 2 C 3"
+                + "\n5\nE\nC 1 I 2 C 3");
     }//GEN-LAST:event_testButtonActionPerformed
 
 private void startThread(){
@@ -317,6 +310,12 @@ private void startThread(){
         String newL = "";
         String readyLS = "";
         String readyL = "";
+        String runningLS = "";
+        String runningL = "";
+        String waitingLS = "";
+        String waitingL = "";
+        String endedLS = "";
+        String endedL = "";
         
         try{                                                        // Sets the clock time in case ClockStarter hasn't
             clockT = "clock --    "+ CS.getCurrentTime()+ "\n";
@@ -348,7 +347,35 @@ private void startThread(){
             }
         }
         
-        retVal = clockT + timeQ + processLS + processL + newLS + newL + readyLS + readyL + "\n";
+        runningList = sim.getRunningList();
+        runningLS = runningLS + "runningList.size() -- " + runningList.size()+ "\n";
+        
+        if (runningList.size() > 0){                                                     // sets up runningL
+            for (int i = 0; i < runningList.size(); i++){
+                runningL = runningL + " " + i + " ----    " + runningList.get(i).toString() + "\n";
+            }
+        }
+        
+        waitingList = sim.getWaitingList();
+        waitingLS = waitingLS + "waitingList.size() -- " + waitingList.size()+ "\n";
+        
+        if (waitingList.size() > 0){                                                     // sets up waitingL
+            for (int i = 0; i < waitingList.size(); i++){
+                waitingL = waitingL + " " + i + " ----    " + waitingList.get(i).toString() + "\n";
+            }
+        }
+        
+        endedList = sim.getEndedList();
+        endedLS = endedLS + "endedList.size() -- " + endedList.size()+ "\n";
+        
+        if (endedList.size() > 0){                                                     // sets up endedL
+            for (int i = 0; i < endedList.size(); i++){
+                endedL = endedL + " " + i + " ----    " + endedList.get(i).toString() + "\n";
+            }
+        }
+        
+        retVal = clockT + timeQ + processLS + processL + newLS + newL + 
+                readyLS + readyL + runningLS + runningL + waitingLS + waitingL + endedLS + endedL + "\n";
         return retVal;
         
     }
@@ -395,7 +422,7 @@ private void startThread(){
     // be made into a process (likely, the processes enterance time is not an Integer value)
     // and passes the problem input back to be output for the user to see
     private void processProcesses(String[] inArray) {
-        for (int i = 1; i < inArray.length; i += 3){
+        for (int i = 1; i < inArray.length; i += 3){      
             try{
                 String theTape = inArray[i + 2];
                 int tapeCount = 0;
@@ -428,18 +455,24 @@ private void startThread(){
                     }
                     String stringToAdd = theTape.substring(begin, end);
                     int intToAdd;
-                    if(stringToAdd.length() == 4) {
-                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 1);
-                        intToAdd = Integer.parseInt(stringToAdd.substring(2));
-                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 2);
+//                    if(stringToAdd.length() == 4) {
+//                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 1);
+//                        intToAdd = Integer.parseInt(stringToAdd.substring(2));
+//                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 2);
+//                        tape.add(new Tape(stringToAdd, intToAdd));
+//                    }
+//                    else if(stringToAdd.length() == 5) {
+//                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 1);
+//                        intToAdd = Integer.parseInt(stringToAdd.substring(2, 4));
+//                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 2);
+//                        tape.add(new Tape(stringToAdd, intToAdd));
+//                    }
+//                    else{
+                        String[] arrayToAdd = stringToAdd.split(" ");
+                        stringToAdd = arrayToAdd[0];
+                        intToAdd = Integer.parseInt(arrayToAdd[1]);
                         tape.add(new Tape(stringToAdd, intToAdd));
-                    }
-                    else if(stringToAdd.length() == 5) {
-                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 1);
-                        intToAdd = Integer.parseInt(stringToAdd.substring(2, 4));
-                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 2);
-                        tape.add(new Tape(stringToAdd, intToAdd));
-                    }
+                    //}
                 }
                 
                 Process temp = new Process(Integer.parseInt(inArray[i]), inArray[i+1], tape);
@@ -451,6 +484,25 @@ private void startThread(){
                 throw ex;
             }
         }
+    }
+
+    private void resetTimeAndSim(java.awt.event.ActionEvent evt) {
+        if (running){
+            playPauseButtonActionPerformed(evt);
+            CS.resetCurrentTime();
+        }
+        try{
+            CS.resetCurrentTime();
+        }catch(Exception ex){}
+        try{
+            sim.clearSim();
+        }catch(Exception ex){}
+        
+        if(!outputArea.getText().equals("")){
+            outputArea.setText("");
+            clocked = false;
+        }
+        
     }
     
     private class MyChangeListener implements ChangeListener{

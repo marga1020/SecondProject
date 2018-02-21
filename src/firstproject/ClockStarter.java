@@ -56,7 +56,7 @@ public class ClockStarter implements Runnable{
         currentTime++;
         try{
         sim.setClockTime(currentTime);
-        }catch(Exception ex){}
+        }catch(Exception ex){System.out.println("Error Here" + ex.toString());}
         jLabel.setText(""+ getCurrentTime());
     }
     

@@ -16,6 +16,7 @@ package firstproject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeEvent;
@@ -85,6 +86,11 @@ public class MainFrame extends javax.swing.JFrame {
         runningListLabel = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         waitingListLabel = new javax.swing.JLabel();
+        newLabel = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        newListLabel = new javax.swing.JLabel();
+        tqLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -95,10 +101,10 @@ public class MainFrame extends javax.swing.JFrame {
                 playPauseButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(playPauseButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 80, -1));
+        getContentPane().add(playPauseButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, -1));
 
         clockLabel.setText("-1");
-        getContentPane().add(clockLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 20, -1, -1));
+        getContentPane().add(clockLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 20, -1, -1));
 
         readDataButton.setText("Read Data");
         readDataButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
                 readDataButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(readDataButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+        getContentPane().add(readDataButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         oneTickButton.setText("One Tick");
         oneTickButton.addActionListener(new java.awt.event.ActionListener() {
@@ -114,23 +120,23 @@ public class MainFrame extends javax.swing.JFrame {
                 oneTickButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(oneTickButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 80, -1));
+        getContentPane().add(oneTickButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 80, -1));
 
         inputArea.setColumns(20);
         inputArea.setRows(5);
         jScrollPane1.setViewportView(inputArea);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 300, 200));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 310, 200));
 
         outputArea.setColumns(20);
         outputArea.setRows(5);
         jScrollPane2.setViewportView(outputArea);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 140, 310, 200));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 310, 310));
 
         speedSlider.setMaximum(200);
         speedSlider.setMinimum(10);
-        getContentPane().add(speedSlider, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, 101, 20));
+        getContentPane().add(speedSlider, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 101, 20));
 
         statusButton.setText("Status");
         statusButton.addActionListener(new java.awt.event.ActionListener() {
@@ -138,25 +144,25 @@ public class MainFrame extends javax.swing.JFrame {
                 statusButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(statusButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, -1, -1));
+        getContentPane().add(statusButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, -1, -1));
 
         speedLabel.setText("Speed");
-        getContentPane().add(speedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, -1, -1));
+        getContentPane().add(speedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, -1, -1));
 
         processesLabel.setText("Processes");
-        getContentPane().add(processesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, -1, -1));
+        getContentPane().add(processesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, -1, -1));
 
-        endedLabel.setText("Ended");
-        getContentPane().add(endedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 350, -1, -1));
+        endedLabel.setText("Terminated");
+        getContentPane().add(endedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 160, -1, -1));
 
         readyLabel.setText("Ready");
-        getContentPane().add(readyLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 500, -1, -1));
+        getContentPane().add(readyLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 260, -1, -1));
 
         runningLabel.setText("Running");
-        getContentPane().add(runningLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, -1, -1));
+        getContentPane().add(runningLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 400, -1, -1));
 
         waitingLabel.setText("Waiting");
-        getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 560, -1, -1));
+        getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 480, -1, -1));
 
         testButton.setText("Test");
         testButton.addActionListener(new java.awt.event.ActionListener() {
@@ -168,23 +174,32 @@ public class MainFrame extends javax.swing.JFrame {
 
         jScrollPane3.setViewportView(processesListLabel);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, 120, 100));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 220, 100));
 
         jScrollPane4.setViewportView(readyListLabel);
 
-        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 520, 130, 130));
+        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, 210, 130));
 
         jScrollPane5.setViewportView(endedListLabel);
 
-        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 370, 120, 120));
+        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 180, 230, 120));
 
         jScrollPane6.setViewportView(runningListLabel);
 
-        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 520, 130, 130));
+        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 420, 180, 40));
 
         jScrollPane7.setViewportView(waitingListLabel);
 
-        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 590, 130, 90));
+        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 500, 210, 150));
+
+        newLabel.setText("New");
+        getContentPane().add(newLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, -1, -1));
+
+        jScrollPane8.setViewportView(newListLabel);
+
+        getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 180, 100));
+        getContentPane().add(tqLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 460, 110, 20));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 490, 30, 10));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -224,7 +239,7 @@ public class MainFrame extends javax.swing.JFrame {
                 return;
             }
             outputArea.setText("\n Data Read Successfully");
-            sim = new Simulator(clockLimit, processes, processesListLabel, readyListLabel, runningListLabel, waitingListLabel, endedListLabel);
+            sim = new Simulator(clockLimit, processes, processesListLabel, newListLabel, readyListLabel, runningListLabel, waitingListLabel, endedListLabel, tqLabel);
             try{
                 CS.setSim(sim);
             }catch(Exception ex){
@@ -251,6 +266,7 @@ public class MainFrame extends javax.swing.JFrame {
         CS.incrementTime();
         try{
             sim.setClockTime(CS.getCurrentTime());
+            statusButtonActionPerformed(evt);
         }catch(Exception ex){
             
         }
@@ -277,11 +293,21 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_statusButtonActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        inputArea.setText("4\n2\nA\nC 1 I 2 C 3"
-                + "\n5\nB\nC 1 I 2 C 3"
+        if (inputArea.getText().equals("4\n2\nA\nC 1 I 2 C 3"
+                + "\n4\nB\nC 1 I 2 C 3"
                 + "\n1\nC\nC 1 I 2 C 3"
-                + "\n3\nD\nC 1 I 2 C 3"
+                + "\n3\nD\nC 4 I 2 C 3"
+                + "\n5\nE\nC 1 I 2 C 3")){
+            int inputsToGenerate = 5;
+            inputArea.setText(generateInputs(inputsToGenerate));
+        }
+        else{
+            inputArea.setText("4\n2\nA\nC 1 I 2 C 3"
+                + "\n4\nB\nC 1 I 2 C 3"
+                + "\n1\nC\nC 1 I 2 C 3"
+                + "\n3\nD\nC 4 I 2 C 3"
                 + "\n5\nE\nC 1 I 2 C 3");
+        }
     }//GEN-LAST:event_testButtonActionPerformed
 
 private void startThread(){
@@ -504,6 +530,46 @@ private void startThread(){
         }
         
     }
+
+    private String generateInputs(int inputsToGenerate) {
+        Random generator = new Random();
+        String retValue = generator.nextInt(7)+3 + "";
+        int numbersOfLines = inputsToGenerate*3;
+        int numberPerLines = inputsToGenerate;
+        if (numberPerLines % 2 == 0){
+            numberPerLines++;
+        }
+            
+        String nameIndex = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        for (int i = 0; i < numbersOfLines; i++){
+            String line = "\n" + (generator.nextInt(10) + 1) + "\n" + nameIndex.charAt(i) + "\n";
+            for (int j = 0; j < numberPerLines; j++){
+                if (j % 2 == 0){
+                    if (j != 0){
+                        line = line + " ";
+                    }
+                    line = line + "C ";
+                }
+                else{
+                    line = line + " I ";
+                }
+                int compare = generator.nextInt(100);
+                if (compare <= 50){
+                    line = line + (generator.nextInt(10) + 1);
+                }
+                else if (compare < 90){
+                    line = line + (generator.nextInt(20) + 1);
+                }
+                else{
+                    line = line + (generator.nextInt(30) + 1);
+                }
+            }
+            
+            retValue = retValue + line;
+        }
+        return retValue;
+    }
+
     
     private class MyChangeListener implements ChangeListener{
             @Override
@@ -519,6 +585,7 @@ private void startThread(){
     private javax.swing.JLabel endedLabel;
     private javax.swing.JLabel endedListLabel;
     private javax.swing.JTextArea inputArea;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -526,6 +593,9 @@ private void startThread(){
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JLabel newLabel;
+    private javax.swing.JLabel newListLabel;
     private javax.swing.JButton oneTickButton;
     private javax.swing.JTextArea outputArea;
     private javax.swing.JButton playPauseButton;
@@ -540,6 +610,7 @@ private void startThread(){
     private javax.swing.JSlider speedSlider;
     private javax.swing.JButton statusButton;
     private javax.swing.JButton testButton;
+    private javax.swing.JLabel tqLabel;
     private javax.swing.JLabel waitingLabel;
     private javax.swing.JLabel waitingListLabel;
     // End of variables declaration//GEN-END:variables

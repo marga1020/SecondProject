@@ -19,6 +19,7 @@ public class Process {
     private Tape tape;
     private String location;
     private LinkedList tapeContents, deadTape;
+    private boolean used = false;
     
     public Process(){
         time = 0;
@@ -38,6 +39,14 @@ public class Process {
     
     public void setLocationNew(){
         location = "New List";
+    }
+    
+    public boolean getUsed(){
+        return used;
+    }
+    
+    public void setUsed(boolean u){
+        used = u;
     }
     
     public Tape getTapeSection() {
@@ -82,6 +91,10 @@ public class Process {
     }
     public String getState(){
         return state;
+    }
+    
+    public Tape getTape(){
+        return tape;
     }
     
     public void incrementTape(){

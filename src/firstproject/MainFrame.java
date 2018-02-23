@@ -36,6 +36,7 @@ public class MainFrame extends javax.swing.JFrame {
     private int clockLimit;
     private Simulator sim;
     private String er;
+    private DrawPane drawing;
     
     /**
      * Creates new form MainFrame
@@ -47,6 +48,8 @@ public class MainFrame extends javax.swing.JFrame {
         processes = new ArrayList<>();
         newList = new ArrayList<>();
         readyList = new ArrayList<>();
+        drawing = new DrawPane();
+        drawPanel.add(drawing); 
         
     }
 
@@ -91,6 +94,7 @@ public class MainFrame extends javax.swing.JFrame {
         newListLabel = new javax.swing.JLabel();
         tqLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        drawPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -200,6 +204,7 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 180, 100));
         getContentPane().add(tqLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 460, 110, 20));
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 490, 30, 10));
+        getContentPane().add(drawPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 460, 660));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -582,6 +587,7 @@ private void startThread(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JLabel clockLabel;
+    private javax.swing.JPanel drawPanel;
     private javax.swing.JLabel endedLabel;
     private javax.swing.JLabel endedListLabel;
     private javax.swing.JTextArea inputArea;

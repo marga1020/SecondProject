@@ -348,9 +348,9 @@ public class Simulator {
             for(int i = 0; i < provisionalList.length; i++){
                 try{
                     for(Process x: provisionalList[i]){
-                        provisionalList[i].remove(x);
                         sorted.add(x);
                     }
+                    provisionalList[i].clear();
                 }catch(Exception ex){  }
             }
             

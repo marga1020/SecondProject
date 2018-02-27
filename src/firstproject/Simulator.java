@@ -32,6 +32,9 @@ public class Simulator {
     private ArrayList<Process>[] provisionalList = new ArrayList[3];
     private int processesUnallocated;
     private int rules = 0;
+    private int stateOrderRules = 0;
+    private int waitingOrderRules = 0;
+    private int readyOrderRules = 0;
     
     // Constructor
     public Simulator(int rT, ArrayList<Process> pL, JLabel pLabel, JLabel nL, JLabel reL, JLabel ruL, JLabel wL, JLabel eL, JLabel tq){
@@ -340,31 +343,67 @@ public class Simulator {
         rules = i;
     }
     
+    public void setOrderRule(int i){
+        stateOrderRules = i;
+    }
+    public void setWaitingOrderRules(int i){
+        waitingOrderRules = i;
+    }
+    public void setReadyOrderRules(int i){
+        readyOrderRules = i;
+    }
+    
+    public void setStateOrder(int i){                      // Provisional List Starts N R W
+        ArrayList<Process> temp = new ArrayList<>();
+        if (i == 0){            // NRW from NRW, continue
+            
+        }
+        else if (i == 1){       // NWR from NRW,    pL0 is right. pass 2 to 1, 1 to 2
+            temp = provisionalList[1];
+            provisionalList[1] = provisionalList[2];
+            provisionalList[2] = temp;
+        }
+        else if (i == 2){       // WNR from NRW,    none are right. pass 2 to 0, 1 to 2, and 0 to 1
+            temp = provisionalList[0];
+            provisionalList[0] = provisionalList[2];        // 2 to 0
+            provisionalList[2] = provisionalList[1];        // 1 to 2
+            provisionalList[1] = temp;                      // 0 to 1
+        }
+        else if (i == 3){       // WRN from NRW,    pL1 is right. pass 2 to 0, 0 to 2
+            temp = provisionalList[0];
+            provisionalList[0] = provisionalList[2];        // 2 to 0
+            provisionalList[2] = temp;                      // 0 to 2
+        }
+        else if (i == 4){       // RNW from NRW,    pL2 is right, pass 1 to 0, 0 to 1
+            temp = provisionalList[0];
+            provisionalList[0] = provisionalList[1];        // 2 to 0
+            provisionalList[1] = temp;                      // 0 to 2
+        }
+        else if (i == 5){       // RWN from NRW,    none are right. pass 2 to 1, 1 to 0, and 0 to 2
+            temp = provisionalList[0];
+            provisionalList[0] = provisionalList[1];        // 1 to 0
+            provisionalList[1] = provisionalList[2];        // 2 to 1
+            provisionalList[2] = temp;                      // 0 to 2
+        }
+    }
+    
     private ArrayList<Process> sortByRulesForReady(){
         ArrayList<Process> sorted = new ArrayList<>();
-        
-        if (rules == 0){        // in order, no change
-            
-            for(int i = 0; i < provisionalList.length; i++){
-                try{
-                    for(Process x: provisionalList[i]){
-                        sorted.add(x);
-                    }
-                    provisionalList[i].clear();
-                }catch(Exception ex){  }
-            }
-            
+        if (!provisionalList[2].isEmpty()){
+            sortWaiting(waitingOrderRules);
         }
-        else if (rules == 1){   // by length, shortest to long?
-            
+        if (!provisionalList[1].isEmpty()){
+            sortReady(readyOrderRules);
         }
-        else if (rules == 2){   // alphabetically?
-            
+        setStateOrder(stateOrderRules);
+        for(int i = 0; i < provisionalList.length; i++){
+            try{
+                for(Process x: provisionalList[i]){
+                    sorted.add(x);
+                }
+                provisionalList[i].clear();
+            }catch(Exception ex){  }
         }
-        else{                   // longest to short?   
-            
-        }
-        
         return sorted;
     }
     
@@ -372,6 +411,83 @@ public class Simulator {
         for (Process x: processList){
             x.setUsed(false);
         }
+    }
+
+    private void sortWaiting(int order) { // order 0 - data, 1 - dataR, 2 - alpha, 3 - alphaR
+        ArrayList<Process> temp = new ArrayList<>();
+        temp = provisionalList[2];
+        if (order == 0){
+            provisionalList[2] = sortByData(temp);
+        }
+        else if (order == 1){
+            provisionalList[2] = reverse(sortByData(temp));
+        }
+        else if (order == 2){
+            provisionalList[2] = sortByAlpha(temp);
+        }
+        else if (order == 3){
+            provisionalList[2] = reverse(sortByData(temp));
+        }
+    }
+
+    private void sortReady(int order) { // order 0 - data, 1 - dataR, 2 - alpha, 3 - alphaR
+        ArrayList<Process> temp = new ArrayList<>();
+        temp = provisionalList[1];
+        if (order == 0){
+            provisionalList[1] = sortByData(temp);
+        }
+        else if (order == 1){
+            provisionalList[1] = reverse(sortByData(temp));
+        }
+        else if (order == 2){
+            provisionalList[1] = sortByAlpha(temp);
+        }
+        else if (order == 3){
+            provisionalList[1] = reverse(sortByAlpha(temp));
+        }
+    }
+    
+    private ArrayList<Process> reverse(ArrayList<Process> arr){
+        ArrayList<Process> temp = new ArrayList<>();
+        for (int i = arr.size()-1; i >= 0; i--){
+            temp.add(arr.get(i));
+        }
+        return temp;
+    }
+    
+    private ArrayList<Process> sortByAlpha(ArrayList<Process> arr){
+        String ord = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+        
+        ArrayList<Process> retVal = new ArrayList<>();
+        
+        String[] names = new String[arr.size()];
+        ArrayList<String> name2 = new ArrayList<>();
+        
+        for (int i = 0; i < names.length; i++){
+            names[i] = arr.get(i).getName();
+        }
+        
+        for (int i = 0; i < names.length; i++){
+            int lowest = 100;
+            for(int j = 0; j < names.length; j++){
+                char compare = names[j].charAt(0);
+                if (!name2.contains(names[j]) && ord.indexOf(compare) < lowest){
+                    lowest = j;
+                }
+            }
+            name2.add(names[lowest]);
+        }
+        
+        for (int i = arr.size()-1; i >= 0; i--){
+            if (arr.get(i).getName().equals(name2.get(i))){
+                retVal.add(arr.get(i));
+            }
+        }
+        return retVal;
+    }
+
+    private ArrayList<Process> sortByData(ArrayList<Process> temp) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     class LabelBreakFormat{

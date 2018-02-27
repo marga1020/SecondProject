@@ -14,6 +14,8 @@
  */
 package firstproject;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -47,7 +49,10 @@ public class MainFrame extends javax.swing.JFrame {
         processes = new ArrayList<>();
         newList = new ArrayList<>();
         readyList = new ArrayList<>();
-        
+        RuleListener rL = new RuleListener();
+        stateComboBox.addActionListener(rL);
+        waitingComboBox.addActionListener(rL);
+        readyComboBox.addActionListener(rL);
     }
 
     /**
@@ -91,6 +96,13 @@ public class MainFrame extends javax.swing.JFrame {
         newListLabel = new javax.swing.JLabel();
         tqLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        stateComboBox = new javax.swing.JComboBox();
+        instructionLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        waitingComboBox = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        readyComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -162,7 +174,7 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(runningLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 400, -1, -1));
 
         waitingLabel.setText("Waiting");
-        getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 480, -1, -1));
+        getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 480, -1, -1));
 
         testButton.setText("Test");
         testButton.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +202,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jScrollPane7.setViewportView(waitingListLabel);
 
-        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 500, 210, 150));
+        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 500, 210, 150));
 
         newLabel.setText("New");
         getContentPane().add(newLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, -1, -1));
@@ -200,6 +212,27 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 180, 100));
         getContentPane().add(tqLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 460, 110, 20));
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 490, 30, 10));
+
+        stateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NRW", "NWR", "WNR", "WRN", "RNW", "RWN" }));
+        getContentPane().add(stateComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 530, 150, 22));
+
+        instructionLabel.setText("Choose Rules");
+        getContentPane().add(instructionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 500, -1, -1));
+
+        jLabel2.setText("State Order");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 530, -1, 20));
+
+        jLabel3.setText("From Waiting");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 570, -1, 20));
+
+        waitingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));
+        getContentPane().add(waitingComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 570, 150, 22));
+
+        jLabel4.setText("From Ready");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 620, -1, 20));
+
+        readyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));
+        getContentPane().add(readyComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 620, 150, 22));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -240,6 +273,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
             outputArea.setText("\n Data Read Successfully");
             sim = new Simulator(clockLimit, processes, processesListLabel, newListLabel, readyListLabel, runningListLabel, waitingListLabel, endedListLabel, tqLabel);
+            sim.setOrderRule(stateComboBox.getSelectedIndex());
+            sim.setWaitingOrderRules(waitingComboBox.getSelectedIndex());
+            sim.setReadyOrderRules(readyComboBox.getSelectedIndex());
             try{
                 CS.setSim(sim);
             }catch(Exception ex){
@@ -579,13 +615,30 @@ private void startThread(){
                 }catch(Exception ex){}
             }
     }
+    
+    private class RuleListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try{
+                sim.setOrderRule(stateComboBox.getSelectedIndex());
+                sim.setWaitingOrderRules(waitingComboBox.getSelectedIndex());
+                sim.setReadyOrderRules(readyComboBox.getSelectedIndex());
+            }catch(Exception ex){
+                
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JLabel clockLabel;
     private javax.swing.JLabel endedLabel;
     private javax.swing.JLabel endedListLabel;
     private javax.swing.JTextArea inputArea;
+    private javax.swing.JLabel instructionLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -602,15 +655,18 @@ private void startThread(){
     private javax.swing.JLabel processesLabel;
     private javax.swing.JLabel processesListLabel;
     private javax.swing.JButton readDataButton;
+    private javax.swing.JComboBox readyComboBox;
     private javax.swing.JLabel readyLabel;
     private javax.swing.JLabel readyListLabel;
     private javax.swing.JLabel runningLabel;
     private javax.swing.JLabel runningListLabel;
     private javax.swing.JLabel speedLabel;
     private javax.swing.JSlider speedSlider;
+    private javax.swing.JComboBox stateComboBox;
     private javax.swing.JButton statusButton;
     private javax.swing.JButton testButton;
     private javax.swing.JLabel tqLabel;
+    private javax.swing.JComboBox waitingComboBox;
     private javax.swing.JLabel waitingLabel;
     private javax.swing.JLabel waitingListLabel;
     // End of variables declaration//GEN-END:variables

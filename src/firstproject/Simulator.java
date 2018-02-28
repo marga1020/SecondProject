@@ -493,22 +493,11 @@ public class Simulator {
     
     private ArrayList<Process> sortByData(ArrayList<Process> temp) {
         ArrayList<Process> retVal = new ArrayList<>();
-        ArrayList<Process> names = new ArrayList<>();
         
-        for (Process temp1 : temp) {
-            names.add(temp1);
-        }
-        
-        for (int i = 0; i < names.size(); i++){
-            int minTime = 100000;
-            int index = -1;
-            for(int j = 0; j < names.size(); j++){
-                if (!retVal.contains(names.get(j)) && names.get(j).getOrder() < minTime){
-                    minTime = j;
-                    index = j;
-                }
+        for(Process x: processList){
+            if(temp.contains(x)){
+                retVal.add(x);
             }
-            retVal.add(names.get(index));
         }
         
         return retVal;

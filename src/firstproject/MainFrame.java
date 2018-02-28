@@ -109,6 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
         readyComboBox = new javax.swing.JComboBox();
         sampleData1Button = new javax.swing.JButton();
         sampleData2Button = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -119,7 +120,7 @@ public class MainFrame extends javax.swing.JFrame {
                 playPauseButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(playPauseButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, -1));
+        getContentPane().add(playPauseButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 80, -1));
 
         clockLabel.setText("-1");
         getContentPane().add(clockLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 20, -1, -1));
@@ -138,7 +139,7 @@ public class MainFrame extends javax.swing.JFrame {
                 oneTickButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(oneTickButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 80, -1));
+        getContentPane().add(oneTickButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 80, -1));
 
         inputArea.setColumns(20);
         inputArea.setRows(5);
@@ -255,6 +256,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(sampleData2Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, -1));
+
+        jButton1.setText("Sample Data 3");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -391,6 +400,44 @@ public class MainFrame extends javax.swing.JFrame {
                             "C 6 I 26 C 5";
         inputArea.setText(baseInput);
     }//GEN-LAST:event_sampleData2ButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String baseInput = "10\n" +
+                            "14\n" +
+                            "A1\n" +
+                            "C 6 I 10 C 6\n" +
+                            "12\n" +
+                            "X2\n" +
+                            "C 2 I 17 C 10\n" +
+                            "22\n" +
+                            "Z3\n" +
+                            "C 1 I 3 C 6\n" +
+                            "17\n" +
+                            "Q4\n" +
+                            "C 4 I 5 C 6\n" +
+                            "122\n" +
+                            "Za5\n" +
+                            "C 1 I 3 C 6\n" +
+                            "109\n" +
+                            "Za6\n" +
+                            "C 1 I 3 C 6\n" +
+                            "117\n" +
+                            "Za7\n" +
+                            "C 1 I 3 C 6\n" +
+                            "109\n" +
+                            "Za8\n" +
+                            "C 1 I 3 C 6\n" +
+                            "124\n" +
+                            "Za9\n" +
+                            "C 1 I 3 C 6\n" +
+                            "122\n" +
+                            "Za10\n" +
+                            "C 1 I 3 C 16 I 13 C 2 I 3 C 16 I 23 C 19 I 13 C 2\n" +
+                            "113\n" +
+                            "Za11\n" +
+                            "C 1 I 3 C 6";
+        inputArea.setText(baseInput);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 private void startThread(){
     if (!clicked){
@@ -725,6 +772,7 @@ private void startThread(){
     private javax.swing.JLabel fromNewLabel;
     private javax.swing.JTextArea inputArea;
     private javax.swing.JLabel instructionLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

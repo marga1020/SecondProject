@@ -203,6 +203,10 @@ public class Simulator {
         }
     }
     
+    public int getTQ(){
+        return currentRun;
+    }
+    
     private void moveToNew(){
         for (Process x: processList){
             if (clockTime == x.getTime() && x.getUsed() == false && x.getLocation().equals("Process List")){

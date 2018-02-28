@@ -4,7 +4,7 @@
  * Aaron Liezert
  * Gaston C. Marian
  * CSC 370, First Project
- * Due XX Feburary 2018
+ * Due 28 Feburary 2018
  * Making a program to simulate operating system processes as specified in the 
  * following link: http://raider.mountunion.edu/csc/CSC370/Spring2018/projects/project01/index.html
  *
@@ -342,7 +342,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
         String baseInput = "4\n2\nA\nC 2 I 2 C 3"
                 + "\n3\nB\nC 1 I 2 C 3"
-                + "\n1\nC\nC 1 I 10 C 3"
+                + "\n1\nC\nC 4 I 9 C 3"
                 + "\n5\nD\nC 5 I 2 C 3"
                 + "\n2\nE\nC 1 I 2 C 3";
         if (inputArea.getText().equals(baseInput)){
@@ -456,11 +456,18 @@ private void startThread(){
         }
         
         runningList = sim.getRunningList();
-        runningLS = runningLS + "runningList.size() -- " + runningList.size()+ "\n";
+        String rls = "";
+        if (runningList.size() == 0){
+            rls = null;
+        }
+        else{
+            rls = runningList.get(i).toString();
+        }
+        runningLS = runningLS + "runningProcess -- " + rls + "\n";
         
         if (runningList.size() > 0){                                                     // sets up runningL
             for (int i = 0; i < runningList.size(); i++){
-                runningL = runningL + " " + i + " ----    " + runningList.get(i).toString() + "\n";
+                runningL = runningL + "    (currentTimeQuantumRemaining -- " + sim.getTQ() + " )" + "\n";
             }
         }
         

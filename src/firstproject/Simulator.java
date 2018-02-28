@@ -257,7 +257,6 @@ public class Simulator {
           
         if (runningList.get(0).getUsed() == false){
             Tape runningTape = runningList.get(0).getTape();
-            System.out.println(currentRun + " is the current Run");     // Testing
             if (currentRun == 0 ){
                 if (runningTape.getType().equals("C") && runningTape.getTimeLeft() !=0){
                     moveToReady('r', runningList);

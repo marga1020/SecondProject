@@ -34,7 +34,7 @@ public class Simulator {
     private int rules = 0;
     private int stateOrderRules = 0;
     private int waitingOrderRules = 0;
-    private int newOrderRules = 0;
+    private int readyOrderRules = 0;
     
     // Constructor
     public Simulator(int rT, ArrayList<Process> pL, JLabel pLabel, JLabel nL, JLabel reL, JLabel ruL, JLabel wL, JLabel eL, JLabel tq){
@@ -244,6 +244,8 @@ public class Simulator {
         provisionalList[2].add(processToGo);
     }
     
+       
+    
     private void moveToRunning(){
         if(!readyList.isEmpty()){
             runningList.add(readyList.get(0));
@@ -255,6 +257,7 @@ public class Simulator {
           
         if (runningList.get(0).getUsed() == false){
             Tape runningTape = runningList.get(0).getTape();
+            System.out.println(currentRun + " is the current Run");     // Testing
             if (currentRun == 0 ){
                 if (runningTape.getType().equals("C") && runningTape.getTimeLeft() !=0){
                     moveToReady('r', runningList);
@@ -349,7 +352,7 @@ public class Simulator {
         waitingOrderRules = i;
     }
     public void setReadyOrderRules(int i){
-        newOrderRules = i;
+        readyOrderRules = i;
     }
     
     public void setStateOrder(int i){                      // Provisional List Starts N R W
@@ -391,8 +394,8 @@ public class Simulator {
         if (!provisionalList[2].isEmpty()){
             sortWaiting(waitingOrderRules);
         }
-        if (!provisionalList[0].isEmpty()){
-            sortNew(newOrderRules);
+        if (!provisionalList[1].isEmpty()){
+            sortReady(readyOrderRules);
         }
         setStateOrder(stateOrderRules);
         for(int i = 0; i < provisionalList.length; i++){
@@ -429,20 +432,20 @@ public class Simulator {
         }
     }
 
-    private void sortNew(int order) { // order 0 - data, 1 - dataR, 2 - alpha, 3 - alphaR
+    private void sortReady(int order) { // order 0 - data, 1 - dataR, 2 - alpha, 3 - alphaR
         ArrayList<Process> temp = new ArrayList<>();
-        temp = provisionalList[0];
+        temp = provisionalList[1];
         if (order == 0){
-            provisionalList[0] = sortByData(temp);
+            provisionalList[1] = sortByData(temp);
         }
         else if (order == 1){
-            provisionalList[0] = reverse(sortByData(temp));
+            provisionalList[1] = reverse(sortByData(temp));
         }
         else if (order == 2){
-            provisionalList[0] = sortByAlpha(temp);
+            provisionalList[1] = sortByAlpha(temp);
         }
         else if (order == 3){
-            provisionalList[0] = reverse(sortByAlpha(temp));
+            provisionalList[1] = reverse(sortByAlpha(temp));
         }
     }
     
@@ -477,7 +480,7 @@ public class Simulator {
             name2.add(names[lowest]);
         }
         
-        for (int i = 0; i < arr.size(); i++){
+        for (int i = arr.size()-1; i >= 0; i--){
             if (arr.get(i).getName().equals(name2.get(i))){
                 retVal.add(arr.get(i));
             }
@@ -485,9 +488,51 @@ public class Simulator {
         return retVal;
     }
 
-    private ArrayList<Process> sortByData(ArrayList<Process> temp) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private ArrayList<Process> reverseSortData(ArrayList<Process> temp){
+        ArrayList<Process> arr = new ArrayList<>();
+        for (int i = temp.size()-1; i >= 0; i--){
+            arr.add(temp.get(i));
+        }
+        return arr;
     }
+    
+    private ArrayList<Process> sortByData(ArrayList<Process> temp) {
+        ArrayList<Process> retVal = new ArrayList<>();
+        
+        //String[] names = new String[temp.size()];
+        
+        //ArrayList<String> name2 = new ArrayList<>();
+        
+        String[] names = new String[temp.size()];
+        ArrayList<String> name3 = new ArrayList<>();
+        
+        for (int i = 0; i < names.length; i++){
+            names[i] = temp.get(i).getName();
+        }
+        
+        for (int i = 0; i < newList.size(); i++){
+            if (clockTime = newList.get(i).getTime() + 1){
+                if (newList.get(i).getUsed() == false){
+                    readyList.add(newList.get(i));
+                    newList.get(i).setUsed(true);
+                    newList.remove(newList.get(i));
+                    i -= 1;
+                    }
+            }
+            
+        }
+        
+        for (int i = temp.size()-1; i >= 0; i--){
+            if (temp.get(i).getName().equals(name3.get(i))){
+                retVal.add(temp.get(i));
+            }
+        }
+        return retVal;
+        }
+    
+        
+        
+    
     
     class LabelBreakFormat{
         private String labelText = "<html>";
@@ -509,3 +554,4 @@ public class Simulator {
         }
     }
 }
+

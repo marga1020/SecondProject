@@ -36,6 +36,7 @@ public class MainFrame extends javax.swing.JFrame {
     private boolean running = false;
     private Thread thread;
     private int clockLimit;
+    private int arr, temp, i;
     private Simulator sim;
     private String er;
     
@@ -214,6 +215,11 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 490, 30, 10));
 
         stateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NRW", "NWR", "WNR", "WRN", "RNW", "RWN" }));
+        stateComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stateComboBoxActionPerformed(evt);
+            }
+        });
         getContentPane().add(stateComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 530, 150, 22));
 
         instructionLabel.setText("Choose Rules");
@@ -226,12 +232,22 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 570, -1, 20));
 
         waitingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));
+        waitingComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                waitingComboBoxActionPerformed(evt);
+            }
+        });
         getContentPane().add(waitingComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 570, 150, 22));
 
-        jLabel4.setText("From New");
+        jLabel4.setText("From Ready");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 620, -1, 20));
 
         readyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));
+        readyComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readyComboBoxActionPerformed(evt);
+            }
+        });
         getContentPane().add(readyComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 620, 150, 22));
 
         pack();
@@ -345,6 +361,18 @@ public class MainFrame extends javax.swing.JFrame {
                 + "\n5\nE\nC 1 I 2 C 3");
         }
     }//GEN-LAST:event_testButtonActionPerformed
+
+    private void stateComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stateComboBoxActionPerformed
+        i = stateComboBox.getSelectedIndex();
+    }//GEN-LAST:event_stateComboBoxActionPerformed
+
+    private void waitingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_waitingComboBoxActionPerformed
+        arr = waitingComboBox.getSelectedIndex();
+    }//GEN-LAST:event_waitingComboBoxActionPerformed
+
+    private void readyComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readyComboBoxActionPerformed
+        temp = waitingComboBox.getSelectedIndex();
+    }//GEN-LAST:event_readyComboBoxActionPerformed
 
 private void startThread(){
     if (!clicked){

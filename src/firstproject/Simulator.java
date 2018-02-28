@@ -511,7 +511,7 @@ public class Simulator {
         }
         
         for (int i = 0; i < newList.size(); i++){
-            if (clockTime = newList.get(i).getTime() + 1){
+            if (clockTime == newList.get(i).getTime() + 1){
                 if (newList.get(i).getUsed() == false){
                     readyList.add(newList.get(i));
                     newList.get(i).setUsed(true);

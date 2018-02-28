@@ -102,7 +102,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         waitingComboBox = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
+        fromNewLabel = new javax.swing.JLabel();
         readyComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -210,16 +210,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         jScrollPane8.setViewportView(newListLabel);
 
-        getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 180, 100));
+        getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, 200, 100));
         getContentPane().add(tqLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 460, 110, 20));
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 490, 30, 10));
 
         stateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NRW", "NWR", "WNR", "WRN", "RNW", "RWN" }));
-        stateComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stateComboBoxActionPerformed(evt);
-            }
-        });
         getContentPane().add(stateComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 530, 150, 22));
 
         instructionLabel.setText("Choose Rules");
@@ -232,22 +227,12 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 570, -1, 20));
 
         waitingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));
-        waitingComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                waitingComboBoxActionPerformed(evt);
-            }
-        });
         getContentPane().add(waitingComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 570, 150, 22));
 
-        jLabel4.setText("From Ready");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 620, -1, 20));
+        fromNewLabel.setText("From New");
+        getContentPane().add(fromNewLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 620, -1, 20));
 
         readyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));
-        readyComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                readyComboBoxActionPerformed(evt);
-            }
-        });
         getContentPane().add(readyComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 620, 150, 22));
 
         pack();
@@ -285,6 +270,12 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (Exception ex){
                 outputArea.setText("ERROR:\nInput data validation failed.\nMake sure the input format is correct."
                         +"\n3 lines - \n\ta number for time, \n\ta string name, \n\tand a tape\n"+er);
+                return;
+            }
+            // Validation that names are unique
+            if(!nonUniqueNames().equals("")){
+                outputArea.setText("ERROR:\nInput data name error.\nMake sure all names are unique."
+                        + "\nCheck for " + nonUniqueNames());
                 return;
             }
             outputArea.setText("\n Data Read Successfully");
@@ -634,6 +625,28 @@ private void startThread(){
         return retValue;
     }
 
+    private String nonUniqueNames() {
+        String repeats = "";
+        if (processes.size() > 1){
+            ArrayList<String> namesList = new ArrayList<>();
+            for (Process x: processes){
+                namesList.add(x.getName());
+            }
+            ArrayList<String> name2List = new ArrayList<>();
+            for (String name : namesList) {
+                for (String n : namesList) {
+                    name2List.add(n);
+                }
+                name2List.remove(name);
+                if (name2List.contains(name)) {
+                    return name;
+                }
+                name2List.clear();
+            }
+        }
+        return repeats;
+    }
+
     
     private class MyChangeListener implements ChangeListener{
             @Override
@@ -661,12 +674,12 @@ private void startThread(){
     private static javax.swing.JLabel clockLabel;
     private javax.swing.JLabel endedLabel;
     private javax.swing.JLabel endedListLabel;
+    private javax.swing.JLabel fromNewLabel;
     private javax.swing.JTextArea inputArea;
     private javax.swing.JLabel instructionLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

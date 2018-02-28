@@ -292,7 +292,7 @@
     <Container class="javax.swing.JScrollPane" name="jScrollPane8">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="350" y="90" width="180" height="100"/>
+          <AbsoluteConstraints x="330" y="90" width="200" height="100"/>
         </Constraint>
       </Constraints>
 
@@ -382,7 +382,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
+    <Component class="javax.swing.JLabel" name="fromNewLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="From New"/>
       </Properties>

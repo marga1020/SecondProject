@@ -228,7 +228,7 @@ public class MainFrame extends javax.swing.JFrame {
         waitingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));
         getContentPane().add(waitingComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 570, 150, 22));
 
-        jLabel4.setText("From Ready");
+        jLabel4.setText("From New");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 620, -1, 20));
 
         readyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));

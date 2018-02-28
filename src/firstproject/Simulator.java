@@ -34,7 +34,7 @@ public class Simulator {
     private int rules = 0;
     private int stateOrderRules = 0;
     private int waitingOrderRules = 0;
-    private int readyOrderRules = 0;
+    private int newOrderRules = 0;
     
     // Constructor
     public Simulator(int rT, ArrayList<Process> pL, JLabel pLabel, JLabel nL, JLabel reL, JLabel ruL, JLabel wL, JLabel eL, JLabel tq){
@@ -350,7 +350,7 @@ public class Simulator {
         waitingOrderRules = i;
     }
     public void setReadyOrderRules(int i){
-        readyOrderRules = i;
+        newOrderRules = i;
     }
     
     public void setStateOrder(int i){                      // Provisional List Starts N R W
@@ -392,8 +392,8 @@ public class Simulator {
         if (!provisionalList[2].isEmpty()){
             sortWaiting(waitingOrderRules);
         }
-        if (!provisionalList[1].isEmpty()){
-            sortReady(readyOrderRules);
+        if (!provisionalList[0].isEmpty()){
+            sortNew(newOrderRules);
         }
         setStateOrder(stateOrderRules);
         for(int i = 0; i < provisionalList.length; i++){
@@ -430,20 +430,20 @@ public class Simulator {
         }
     }
 
-    private void sortReady(int order) { // order 0 - data, 1 - dataR, 2 - alpha, 3 - alphaR
+    private void sortNew(int order) { // order 0 - data, 1 - dataR, 2 - alpha, 3 - alphaR
         ArrayList<Process> temp = new ArrayList<>();
-        temp = provisionalList[1];
+        temp = provisionalList[0];
         if (order == 0){
-            provisionalList[1] = sortByData(temp);
+            provisionalList[0] = sortByData(temp);
         }
         else if (order == 1){
-            provisionalList[1] = reverse(sortByData(temp));
+            provisionalList[0] = reverse(sortByData(temp));
         }
         else if (order == 2){
-            provisionalList[1] = sortByAlpha(temp);
+            provisionalList[0] = sortByAlpha(temp);
         }
         else if (order == 3){
-            provisionalList[1] = reverse(sortByAlpha(temp));
+            provisionalList[0] = reverse(sortByAlpha(temp));
         }
     }
     
@@ -478,7 +478,7 @@ public class Simulator {
             name2.add(names[lowest]);
         }
         
-        for (int i = arr.size()-1; i >= 0; i--){
+        for (int i = 0; i < arr.size(); i++){
             if (arr.get(i).getName().equals(name2.get(i))){
                 retVal.add(arr.get(i));
             }

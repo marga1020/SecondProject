@@ -17,6 +17,7 @@ package firstproject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 public class ClockStarter implements Runnable{
     
@@ -27,7 +28,7 @@ public class ClockStarter implements Runnable{
     private int sleepTime = 1000;
     private Simulator sim;
     
-    public ClockStarter(JLabel j ) {
+    public ClockStarter(JLabel j) {
         jLabel = j;
         currentTime = -1;
     }
@@ -37,8 +38,6 @@ public class ClockStarter implements Runnable{
         while (true){
             if (!running){
                 incrementTime();
-                //System.out.println("ClockStarter currentTime  "
-                //                    + getCurrentTime());
             }
             try{ Thread.sleep(sleepTime); } catch (Exception e) {}
         }
@@ -88,4 +87,5 @@ public class ClockStarter implements Runnable{
             running = false;
         }
     }
+    
 }

@@ -14,6 +14,7 @@ import java.util.LinkedList;
  * @author 1Owner
  */
 public class Process {
+    private int enteranceOrder;
     private int time;
     private String name, state;
     private Tape tape;
@@ -25,9 +26,10 @@ public class Process {
         time = 0;
         name = "";
         tapeContents = null;
+        enteranceOrder=0;
     }
     
-    public Process(int t, String n, LinkedList l){
+    public Process(int t, String n, LinkedList l, int i){
         time = t;
         name = n;
         tapeContents = l;
@@ -35,6 +37,11 @@ public class Process {
         // Add line to affect the Tape object with String
         location = "Process List";
         tape = this.getTapeSection();
+        enteranceOrder = i;
+    }
+    
+    public int getOrder(){
+        return enteranceOrder;
     }
     
     public void setLocationNew(){

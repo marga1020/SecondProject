@@ -34,7 +34,7 @@ public class Simulator {
     private int rules = 0;
     private int stateOrderRules = 0;
     private int waitingOrderRules = 0;
-    private int readyOrderRules = 0;
+    private int newOrderRules = 0;
     
     // Constructor
     public Simulator(int rT, ArrayList<Process> pL, JLabel pLabel, JLabel nL, JLabel reL, JLabel ruL, JLabel wL, JLabel eL, JLabel tq){
@@ -333,18 +333,18 @@ public class Simulator {
     }
   
     private void moveProvisionalToReady(){
-        ArrayList<Process> intoReady = sortByRulesForReady();
-        
-        for (Process x: intoReady){
-            readyList.add(x);
+        if (!provisionalList[0].isEmpty() || !provisionalList[1].isEmpty() || !provisionalList[2].isEmpty()){
+            ArrayList<Process> intoReady = sortByRulesForReady();
+
+            for (Process x: intoReady){
+                readyList.add(x);
+            }
         }
-        
     }
     
     public void setRules(int i){
         rules = i;
     }
-    
     public void setOrderRule(int i){
         stateOrderRules = i;
     }
@@ -352,7 +352,7 @@ public class Simulator {
         waitingOrderRules = i;
     }
     public void setReadyOrderRules(int i){
-        readyOrderRules = i;
+        newOrderRules = i;
     }
     
     public void setStateOrder(int i){                      // Provisional List Starts N R W
@@ -394,8 +394,8 @@ public class Simulator {
         if (!provisionalList[2].isEmpty()){
             sortWaiting(waitingOrderRules);
         }
-        if (!provisionalList[1].isEmpty()){
-            sortReady(readyOrderRules);
+        if (!provisionalList[0].isEmpty()){
+            sortNew(newOrderRules);
         }
         setStateOrder(stateOrderRules);
         for(int i = 0; i < provisionalList.length; i++){
@@ -428,24 +428,24 @@ public class Simulator {
             provisionalList[2] = sortByAlpha(temp);
         }
         else if (order == 3){
-            provisionalList[2] = reverse(sortByData(temp));
+            provisionalList[2] = reverse(sortByAlpha(temp));
         }
     }
 
-    private void sortReady(int order) { // order 0 - data, 1 - dataR, 2 - alpha, 3 - alphaR
+    private void sortNew(int order) { // order 0 - data, 1 - dataR, 2 - alpha, 3 - alphaR
         ArrayList<Process> temp = new ArrayList<>();
-        temp = provisionalList[1];
+        temp = provisionalList[0];
         if (order == 0){
-            provisionalList[1] = sortByData(temp);
+            provisionalList[0] = sortByData(temp);
         }
         else if (order == 1){
-            provisionalList[1] = reverse(sortByData(temp));
+            provisionalList[0] = reverse(sortByData(temp));
         }
         else if (order == 2){
-            provisionalList[1] = sortByAlpha(temp);
+            provisionalList[0] = sortByAlpha(temp);
         }
         else if (order == 3){
-            provisionalList[1] = reverse(sortByAlpha(temp));
+            provisionalList[0] = reverse(sortByAlpha(temp));
         }
     }
     
@@ -480,53 +480,34 @@ public class Simulator {
             name2.add(names[lowest]);
         }
         
-        for (int i = arr.size()-1; i >= 0; i--){
+        for (int i = 0; i < arr.size(); i++){
             if (arr.get(i).getName().equals(name2.get(i))){
                 retVal.add(arr.get(i));
             }
         }
         return retVal;
     }
-
-    private ArrayList<Process> reverseSortData(ArrayList<Process> temp){
-        ArrayList<Process> arr = new ArrayList<>();
-        for (int i = temp.size()-1; i >= 0; i--){
-            arr.add(temp.get(i));
-        }
-        return arr;
-    }
     
     private ArrayList<Process> sortByData(ArrayList<Process> temp) {
         ArrayList<Process> retVal = new ArrayList<>();
+        ArrayList<Process> names = new ArrayList<>();
         
-        //String[] names = new String[temp.size()];
-        
-        //ArrayList<String> name2 = new ArrayList<>();
-        
-        String[] names = new String[temp.size()];
-        ArrayList<String> name3 = new ArrayList<>();
-        
-        for (int i = 0; i < names.length; i++){
-            names[i] = temp.get(i).getName();
+        for (Process temp1 : temp) {
+            names.add(temp1);
         }
         
-        for (int i = 0; i < newList.size(); i++){
-            if (clockTime == newList.get(i).getTime() + 1){
-                if (newList.get(i).getUsed() == false){
-                    readyList.add(newList.get(i));
-                    newList.get(i).setUsed(true);
-                    newList.remove(newList.get(i));
-                    i -= 1;
-                    }
+        for (int i = 0; i < names.size(); i++){
+            int minTime = 100000;
+            int index = -1;
+            for(int j = 0; j < names.size(); j++){
+                if (!retVal.contains(names.get(j)) && names.get(j).getOrder() < minTime){
+                    minTime = j;
+                    index = j;
+                }
             }
-            
+            retVal.add(names.get(index));
         }
         
-        for (int i = temp.size()-1; i >= 0; i--){
-            if (temp.get(i).getName().equals(name3.get(i))){
-                retVal.add(temp.get(i));
-            }
-        }
         return retVal;
         }
     

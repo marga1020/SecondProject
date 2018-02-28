@@ -16,6 +16,8 @@ package firstproject;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -54,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         stateComboBox.addActionListener(rL);
         waitingComboBox.addActionListener(rL);
         readyComboBox.addActionListener(rL);
+        clockLabel.addPropertyChangeListener(new ClockChangeListener());
     }
 
     /**
@@ -104,6 +107,8 @@ public class MainFrame extends javax.swing.JFrame {
         waitingComboBox = new javax.swing.JComboBox();
         fromNewLabel = new javax.swing.JLabel();
         readyComboBox = new javax.swing.JComboBox();
+        sampleData1Button = new javax.swing.JButton();
+        sampleData2Button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -177,13 +182,13 @@ public class MainFrame extends javax.swing.JFrame {
         waitingLabel.setText("Waiting");
         getContentPane().add(waitingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 480, -1, -1));
 
-        testButton.setText("Test");
+        testButton.setText("Test Data");
         testButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(testButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        getContentPane().add(testButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 100, -1));
 
         jScrollPane3.setViewportView(processesListLabel);
 
@@ -234,6 +239,22 @@ public class MainFrame extends javax.swing.JFrame {
 
         readyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Data Order", "Reverse Data Order", "Alphabetical", "Reverse Alphabetical" }));
         getContentPane().add(readyComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 620, 150, 22));
+
+        sampleData1Button.setText("Sample Data 1");
+        sampleData1Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sampleData1ButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(sampleData1Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
+
+        sampleData2Button.setText("Sample Data 2");
+        sampleData2Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sampleData2ButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(sampleData2Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -309,47 +330,27 @@ public class MainFrame extends javax.swing.JFrame {
         CS.incrementTime();
         try{
             sim.setClockTime(CS.getCurrentTime());
-            statusButtonActionPerformed(evt);
         }catch(Exception ex){
             
         }
     }//GEN-LAST:event_oneTickButtonActionPerformed
 
     private void statusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusButtonActionPerformed
-        try{
-            sim.getProcessList();
-            if (!clocked){
-                outputArea.setText("OUTPUT\n\n");
-                clocked = !clocked;
-            }
-            try{
-                sim.setClockTime(CS.getCurrentTime());
-            }
-            catch(Exception ex){
-                sim.setClockTime(-1);
-            }
-            outputArea.append(statusString());
-            outputArea.setCaretPosition(outputArea.getText().length());}
-        catch(Exception ex){
-            outputArea.setText("\n You need to enter valid data\nand click to read it in");
-        }
+        showStatus();
     }//GEN-LAST:event_statusButtonActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        if (inputArea.getText().equals("4\n2\nA\nC 1 I 2 C 3"
-                + "\n4\nB\nC 1 I 2 C 3"
-                + "\n1\nC\nC 1 I 2 C 3"
-                + "\n3\nD\nC 4 I 2 C 3"
-                + "\n5\nE\nC 1 I 2 C 3")){
+        String baseInput = "4\n2\nA\nC 2 I 2 C 3"
+                + "\n3\nB\nC 1 I 2 C 3"
+                + "\n1\nC\nC 1 I 10 C 3"
+                + "\n5\nD\nC 5 I 2 C 3"
+                + "\n2\nE\nC 1 I 2 C 3";
+        if (inputArea.getText().equals(baseInput)){
             int inputsToGenerate = 5;
             inputArea.setText(generateInputs(inputsToGenerate));
         }
         else{
-            inputArea.setText("4\n2\nA\nC 1 I 2 C 3"
-                + "\n4\nB\nC 1 I 2 C 3"
-                + "\n1\nC\nC 1 I 2 C 3"
-                + "\n3\nD\nC 4 I 2 C 3"
-                + "\n5\nE\nC 1 I 2 C 3");
+            inputArea.setText(baseInput);
         }
     }//GEN-LAST:event_testButtonActionPerformed
 
@@ -364,6 +365,32 @@ public class MainFrame extends javax.swing.JFrame {
     private void readyComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readyComboBoxActionPerformed
         temp = waitingComboBox.getSelectedIndex();
     }//GEN-LAST:event_readyComboBoxActionPerformed
+
+    private void sampleData1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sampleData1ButtonActionPerformed
+        String baseInput = "4\n2\nA\nC 5 I 9 C 6 I 7 C 2\n"
+                + "50\nB\nC 2 I 19 C 10 I 3 C 2";
+        inputArea.setText(baseInput);
+    }//GEN-LAST:event_sampleData1ButtonActionPerformed
+
+    private void sampleData2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sampleData2ButtonActionPerformed
+        String baseInput = "4\n" +
+                            "4\n" +
+                            "A1\n" +
+                            "C 6 I 32 C 6\n" +
+                            "9\n" +
+                            "X2\n" +
+                            "C 6 I 17 C 10\n" +
+                            "56\n" +
+                            "Z3\n" +
+                            "C 6 I 4 C 6\n" +
+                            "56\n" +
+                            "Q4\n" +
+                            "C 6 I 4 C 6\n" +
+                            "10\n" +
+                            "B5\n" +
+                            "C 6 I 26 C 5";
+        inputArea.setText(baseInput);
+    }//GEN-LAST:event_sampleData2ButtonActionPerformed
 
 private void startThread(){
     if (!clicked){
@@ -536,27 +563,13 @@ private void startThread(){
                     }
                     String stringToAdd = theTape.substring(begin, end);
                     int intToAdd;
-//                    if(stringToAdd.length() == 4) {
-//                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 1);
-//                        intToAdd = Integer.parseInt(stringToAdd.substring(2));
-//                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 2);
-//                        tape.add(new Tape(stringToAdd, intToAdd));
-//                    }
-//                    else if(stringToAdd.length() == 5) {
-//                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 1);
-//                        intToAdd = Integer.parseInt(stringToAdd.substring(2, 4));
-//                        stringToAdd = stringToAdd.substring(0, stringToAdd.length() - 2);
-//                        tape.add(new Tape(stringToAdd, intToAdd));
-//                    }
-//                    else{
-                        String[] arrayToAdd = stringToAdd.split(" ");
-                        stringToAdd = arrayToAdd[0];
-                        intToAdd = Integer.parseInt(arrayToAdd[1]);
-                        tape.add(new Tape(stringToAdd, intToAdd));
-                    //}
+                    String[] arrayToAdd = stringToAdd.split(" ");
+                    stringToAdd = arrayToAdd[0];
+                    intToAdd = Integer.parseInt(arrayToAdd[1]);
+                    tape.add(new Tape(stringToAdd, intToAdd));
                 }
                 
-                Process temp = new Process(Integer.parseInt(inArray[i]), inArray[i+1], tape);
+                Process temp = new Process(Integer.parseInt(inArray[i]), inArray[i+1], tape, i);
                 processes.add(temp);
             }catch (Exception ex){
                 er = "Check here: \nLine " + i + " - " +inArray[i]
@@ -647,6 +660,26 @@ private void startThread(){
         return repeats;
     }
 
+    private void showStatus() {
+        try{
+            sim.getProcessList();
+            if (!clocked){
+                outputArea.setText("OUTPUT\n\n");
+                clocked = !clocked;
+            }
+            try{
+                sim.setClockTime(CS.getCurrentTime());
+            }
+            catch(Exception ex){
+                sim.setClockTime(-1);
+            }
+            outputArea.append(statusString());
+            outputArea.setCaretPosition(outputArea.getText().length());}
+        catch(Exception ex){
+            outputArea.setText("\n You need to enter valid data\nand click to read it in");
+        }
+    }
+
     
     private class MyChangeListener implements ChangeListener{
             @Override
@@ -655,6 +688,14 @@ private void startThread(){
                 CS.setSleepTime(speedSlider.getValue());    // Current method can require up to 5 seconds of wait time after moving slider
                 }catch(Exception ex){}
             }
+    }
+    
+    private class ClockChangeListener implements PropertyChangeListener{
+        @Override
+        public void propertyChange(PropertyChangeEvent pce) {
+            showStatus();
+        }
+            
     }
     
     private class RuleListener implements ActionListener{
@@ -701,6 +742,8 @@ private void startThread(){
     private javax.swing.JLabel readyListLabel;
     private javax.swing.JLabel runningLabel;
     private javax.swing.JLabel runningListLabel;
+    private javax.swing.JButton sampleData1Button;
+    private javax.swing.JButton sampleData2Button;
     private javax.swing.JLabel speedLabel;
     private javax.swing.JSlider speedSlider;
     private javax.swing.JComboBox stateComboBox;
